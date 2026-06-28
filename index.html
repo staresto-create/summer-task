@@ -2,7 +2,847 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>龍騰英文 暑假字彙練習 W1–W8</title>
+<style>
+:root {
+  --navy:#1F4E79; --navyD:#163a5a;
+  --low:#1F497D; --lowLt:#DDEEFF; --lowMd:#BDD7EE;
+  --mid:#375623; --midLt:#E2EFDA; --midMd:#C6E0B4;
+  --high:#7B3F00; --highLt:#FCE4D6; --highMd:#F8CBAD;
+  --ok:#1B5E20; --okBg:#E8F5E9;
+  --err:#B71C1C; --errBg:#FFEBEE;
+  --exp:#F57F17; --expBg:#FFF8E1;
+  --grey:#555; --greyLt:#F5F5F5; --border:#DDD;
+  --r:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;background:#EEF2F7;color:#222;font-size:15px;line-height:1.6}
+header{background:var(--navy);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:17px;font-weight:700;flex:1}
+.badge{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:13px;white-space:nowrap}
+.wrap{max-width:920px;margin:0 auto;padding:18px 14px 60px}
+
+.week-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.wt{padding:6px 14px;border-radius:20px;border:2px solid var(--border);background:#fff;cursor:pointer;font-size:14px;font-weight:700;color:var(--grey);transition:all .18s}
+.wt:hover{border-color:var(--navy);color:var(--navy)}
+.wt.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.wt.done{border-color:var(--ok);color:var(--ok)}
+.wt.done.active{background:var(--ok);color:#fff;border-color:var(--ok)}
+
+.tier-bar{display:flex;gap:0;margin-bottom:18px;border-radius:var(--r);overflow:hidden;border:2px solid var(--border)}
+.tb{flex:1;padding:10px 6px;border:none;cursor:pointer;font-size:13px;font-weight:700;transition:all .18s;background:#fff;line-height:1.3}
+.tb:not(:last-child){border-right:2px solid var(--border)}
+.tb.low{color:var(--low)} .tb.mid{color:var(--mid)} .tb.high{color:var(--high)}
+.tb.active.low{background:var(--low);color:#fff} .tb.active.mid{background:var(--mid);color:#fff} .tb.active.high{background:var(--high);color:#fff}
+.td{display:block;font-weight:400;font-size:11px;opacity:.85;margin-top:2px}
+
+.winfo{background:#fff;border-radius:var(--r);padding:11px 15px;margin-bottom:16px;border-left:4px solid var(--navy);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.wl{font-weight:700;color:var(--navy);font-size:15px}
+.ws{font-size:13px;color:var(--grey)}
+
+.sbar{background:#fff;border-radius:var(--r);padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--border)}
+.sn{font-size:26px;font-weight:900;color:var(--navy);line-height:1}
+.sl{font-size:12px;color:var(--grey)}
+.prog{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;min-width:60px}
+.pf{height:100%;background:var(--navy);border-radius:4px;transition:width .35s}
+.sub-btn{margin-left:auto;padding:9px 20px;border-radius:6px;border:none;background:var(--navy);color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.sub-btn:hover{opacity:.88}
+
+.ph{padding:8px 14px;border-radius:var(--r);margin:18px 0 10px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.ph.A{background:var(--lowMd);color:var(--low)} .ph.B{background:var(--midMd);color:var(--mid)} .ph.C{background:var(--highMd);color:var(--high)}
+
+.qc{background:#fff;border-radius:var(--r);padding:16px 18px;margin-bottom:10px;border:1.5px solid var(--border);transition:border-color .2s}
+.qc.correct{border-color:var(--ok)} .qc.wrong{border-color:var(--err)}
+.qh{display:flex;gap:10px;align-items:flex-start;margin-bottom:11px}
+.qn{background:var(--navy);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.qt{font-size:15px;flex:1}
+.qtag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:auto;white-space:nowrap;align-self:flex-start}
+.qtag.MC{background:#E3F2FD;color:#1565C0}
+.qtag.FILL{background:#E0F2F1;color:#00695C}
+.qtag.ROOT{background:#EDE7F6;color:#6A1B9A}
+.qtag.CTX{background:#FFF3E0;color:#E65100}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+@media(max-width:520px){.opts{grid-template-columns:1fr}}
+.ob{padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--greyLt);cursor:pointer;text-align:left;font-size:14px;transition:all .18s;color:#222;width:100%}
+.ob:hover:not(:disabled){border-color:var(--navy);background:var(--lowLt)}
+.ob.correct{background:var(--okBg);border-color:var(--ok);color:var(--ok);font-weight:700}
+.ob.wrong{background:var(--errBg);border-color:var(--err);color:var(--err)}
+.ob.reveal{background:var(--okBg);border-color:var(--ok);color:var(--ok)}
+.ol{display:inline-block;width:20px;font-weight:700}
+
+.fr{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.fi{flex:1;min-width:150px;padding:8px 11px;border-radius:6px;border:1.5px solid var(--border);font-size:15px;outline:none}
+.fi:focus{border-color:var(--navy)}
+.fi.correct{border-color:var(--ok);background:var(--okBg);color:var(--ok)}
+.fi.wrong{border-color:var(--err);background:var(--errBg);color:var(--err)}
+.fh{font-size:12px;color:var(--grey);margin-top:4px}
+.hint-box{background:#F3F0FF;border-left:3px solid #7C4DFF;border-radius:0 6px 6px 0;padding:7px 12px;margin:8px 0 4px;font-size:13px}
+.hint-blank{font-family:monospace;font-weight:700;color:#5E35B1;letter-spacing:1px}
+.hint-sep{color:#999;margin:0 4px}
+.hint-text{color:#444;font-style:italic}
+.ck{padding:8px 16px;border-radius:6px;border:none;background:var(--navy);color:#fff;cursor:pointer;font-size:14px;font-weight:600;white-space:nowrap}
+.ck:disabled{opacity:.5;cursor:default}
+
+.exp{background:var(--expBg);border-left:3px solid var(--exp);border-radius:0 6px 6px 0;padding:9px 13px;margin-top:10px;font-size:13px;color:#555;display:none;white-space:pre-line}
+.exp.show{display:block}
+.exl{font-weight:700;color:var(--exp);margin-right:4px}
+
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.mo.show{display:flex}
+.mb{background:#fff;border-radius:12px;padding:30px 24px;max-width:460px;width:100%;text-align:center}
+.mb h2{font-size:20px;color:var(--navy);margin-bottom:6px}
+.bsc{font-size:54px;font-weight:900;line-height:1.1;margin:10px 0}
+.smsg{font-size:14px;color:var(--grey);margin-bottom:18px}
+.mc-btn{padding:10px 26px;border-radius:8px;border:none;background:var(--navy);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin:4px}
+.mc-btn.sec{background:#fff;border:2px solid var(--navy);color:var(--navy)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌞 龍騰英文　高一升高二暑假字彙練習</h1>
+  <span class="badge">W1–W8 ∙ 每週 60 題 ∙ 三層分級</span>
+</header>
+<div class="wrap">
+  <div class="week-tabs" id="wkTabs"></div>
+  <div class="tier-bar">
+    <button class="tb low active" onclick="setTier('low',this)">🔵 基礎鞏固型<span class="td">Low · 做 Part A（20題）</span></button>
+    <button class="tb mid" onclick="setTier('mid',this)">🟢 穩健提升型<span class="td">Mid · 做 A+B（40題）</span></button>
+    <button class="tb high" onclick="setTier('high',this)">🟠 全力衝刺型<span class="td">High · 做全部（60題）</span></button>
+  </div>
+  <div class="winfo" id="winfo"></div>
+  <div class="sbar" id="sbar">
+    <div><div class="sn" id="sn">0 / 0</div><div class="sl">已答對 / 已作答</div></div>
+    <div class="prog"><div class="pf" id="pf" style="width:0%"></div></div>
+    <button class="sub-btn" onclick="showResult()">查看本週成績 →</button>
+  </div>
+  <div id="qa"></div>
+</div>
+<div class="mo" id="modal">
+  <div class="mb">
+    <h2>本週練習成果</h2>
+    <div class="bsc" id="msc"></div>
+    <div class="smsg" id="mmsg"></div>
+    <button class="mc-btn" onclick="closeModal()">繼續複習</button>
+    <button class="mc-btn sec" onclick="retryWrong()">只練錯題</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// QUIZ DATA — 8 weeks × 60 questions
+// Part A: 20 MC  |  Part B: 20 FILL  |  Part C: 20 ROOT/CTX MC
+// FILL format: question has blank encoded as x___y in stem
+// Explanation always starts with 📖 full Chinese translation of stem
+// ══════════════════════════════════════════════════════════════════════
+
+const QDB = {
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 1  B1 L1–L4 + Core Vocab L3 U01–U03
+// ─────────────────────────────────────────────────────────────────────
+w1:{week:1,dates:"7/1–7/6",srcA:"龍騰課本 B1 L1–L4",srcB:"核單 L4 U01",srcC:"核單 L4 U01 進階",
+A:[
+[1,"MC","The ______ ceremony left everyone in tears — truly unforgettable.",["systematic","balanced","focused","memorable"],3,null,"memorable (adj.) 難忘的。memory → memorable，令人難忘的場合。"],
+[2,"MC","Maya accidentally ______ her sister's expensive vase and felt terrible about it.",["preserve","ruined","explain","deny"],1,null,"ruin (vt.) 破壞；毀壞。ruined = 毀壞了。"],
+[3,"MC","After failing three exams in a row, the student felt so ______ that he stopped going to class and spent days in bed staring at the ceiling.",["reliable","systematic","depressed","disappointed"],2,null,"depressed (adj.) 沮喪的。de-（向下）+ press（壓）→ 情緒被向下壓。長時間臥床不起是 depressed 的典型症狀，而非 upset（短暫不安）。"],
+[4,"MC","The bad news ______ Emma so much that she could not sleep all night.",["upset","adapt","remind","indicate"],0,null,"upset (vt.) 使難過。The news upset her."],
+[5,"MC","He knocked over the teacher's coffee in front of the whole class — his face turned bright red and he could not bring himself to look up.",["pioneering","embarrassed","disappointed","constructive"],1,null,"embarrassed (adj.) 尷尬的。「臉紅、不敢抬頭」是尷尬的典型反應，而非 depressed（長期低落）或 inspired（受激勵）。"],
+[6,"MC","Sara closed her eyes and tried to ______ where she had last seen her keys.",["create","alleviate","recall","ban"],2,null,"recall (vt.) 記起；回想起。re-（回）+ call（呼叫）→ 把記憶喚回。"],
+[7,"MC","The old photo on the wall ______ him of happy childhood days in the countryside.",["alleviate","eliminate","simplify","reminded"],3,null,"remind sb. of sth. 使某人想起某事，固定搭配。"],
+[8,"MC","After the failure, the young engineer sat quietly and tried to ______ on what had gone wrong.",["describe","warn","distinguish","reflect"],3,null,"reflect (vi.) 認真思考；沉思。re-（回）+ flect（彎）→ 把思緒折回。"],
+[9,"MC","It took him years to ______ that consistent effort matters more than raw talent.",["highlight","realize","recall","blame"],1,null,"realize (vt.) 了解；領悟。re-（完全）+ alize → 使完全理解。"],
+[10,"MC","The researcher gave an impressive ______ on climate change that moved the entire audience.",["minority","courage","presentation","strength"],2,null,"presentation (n.) 報告；介紹。present + -ation。"],
+[11,"MC","Anna felt deeply ______ when none of her friends showed up at her birthday party.",["romantic","frustrated","satisfying","disappointed"],3,null,"disappointed (adj.) 感到失望的。dis-（相反）+ appointed（期待的）。"],
+[12,"MC","Please ______ to my email as soon as possible — the deadline is tomorrow morning.",["fade","describe","respond","explore"],2,null,"respond (vi.) 回應。re-（回）+ spond（承諾）→ 回應。"],
+[13,"MC","David tried to ______ the embarrassing incident, but people kept bringing it up.",["ignore","provide","condense","boost"],0,null,"ignore (vt.) 忽略。ig-（不）+ nore（知道）→ 假裝不知道。"],
+[14,"MC","The passionate music teacher ______ her to compose her very first song at age ten.",["breathe","simplify","inspired","restore"],2,null,"inspire (vt.) 激勵；激發靈感。in-（向內）+ spir（呼吸）→ 向內吹入生命力。"],
+[15,"MC","Despite all the noise around her, the student stayed completely ______ on finishing her essay.",["focused","satisfying","touched","open-minded"],0,null,"focus (vi./vt.) 專注。stay focused on = 持續專注於。"],
+[16,"MC","The rescue team used GPS technology to ______ the survivors in the dense jungle.",["create","focus","require","locate"],3,null,"locate (vt.) 找到……的位置。locus（地點）→ 找到位置。"],
+[17,"MC","Dogs have a ______ sense of smell that allows them to ______ illness before symptoms appear.",["hectic","keen / detect","scientific","promising"],1,null,"keen (adj.) 敏銳的；detect (vt.) 偵測到。兩者經常連用。"],
+[18,"MC","After months of dedicated practice, Kate finally ______ her goal of finishing the marathon.",["breathe","accomplished","conquer","alleviate"],1,null,"accomplish (vt.) 達成；完成任務。ac-（趨向）+ complish（完成）。"],
+[19,"MC","The professor ______ each student a different topic to research for the group project.",["assigned","preserve","ban","explain"],0,null,"assign (vt.) 指派；分配。as-（趨向）+ sign（標記）→ 指定到某處。"],
+[20,"MC","Scientists use complex models to ______ the future spread of new infectious diseases.",["predict","fade","trace","explore"],0,null,"predict (vt.) 預測。pre-（之前）+ dict（說）→ 在事情發生前說出來。"]
+],
+B:[
+
+[1,"FILL","The documentary was highly i_________e — every viewer left with a much deeper understanding of the topic than before.","informative",null,"i_________e|providing useful knowledge; educational; opposite of shallow or empty","📖 這部紀錄片非常有知識性——每位觀眾看完後對主題的理解都比以前深得多。\ninformative (a.) 有內容的；能增進知識的。an informative documentary = 有教育意義的紀錄片。"],
+[2,"FILL","The new policy will i_______e every department — no team will be left unaffected by the changes.","involve",null,"i_______e|to include or affect; to require participation from; opposite of exclude","📖 新政策將涉及每個部門——沒有任何團隊不受這些變化的影響。\ninvolve (vt.) 使涉入；包含，需要。involve every department = 涉及每個部門。"],
+[3,"FILL","The government introduced new measures to strengthen the e_______y and create more jobs for young people.","economy",null,"e_______y|the system of trade and money in a country; related to finance and production","📖 政府推出新措施以強化經濟並為年輕人創造更多就業機會。\neconomy (n.) 經濟；節省。strengthen the economy = 強化經濟，固定搭配。"],
+[4,"FILL","The lawyer argued that without solid e_______e, the charges against her client could not be upheld in court.","evidence",null,"e_______e|facts or information showing whether something is true; proof; what a lawyer needs in court","📖 律師主張，若無確鑿證據，對其委託人的指控便無法在法庭上成立。\nevidence (n.) 證據（不可數）。solid evidence = 確鑿證據，固定搭配。"],
+[5,"FILL","Many students choose to a_______e practical skills, such as coding and public speaking, outside the classroom.","acquire",null,"a_______e|to gain or obtain through effort or experience; to pick up a skill or knowledge","📖 許多學生選擇在課堂外習得實用技能，例如程式設計和公開演講。\nacquire (vt.) 獲得，習得。acquire skills = 習得技能，固定搭配。"],
+[6,"FILL","The school trip was open to all students, i_________g those who had signed up at the last minute.","including",null,"i_________g|taking in as part of a group; not leaving out; used before examples of what is covered","📖 這次校外教學對所有學生開放，包括那些在最後一刻才報名的人。\nincluding (prep.) 包括。including those who... = 包括那些……的人。"],
+[7,"FILL","A short walk in the park every afternoon helped r_______e the stress the graduate student had built up during long hours of studying.","relieve",null,"r_______e|to reduce or ease pain, stress, or difficulty; to make something less severe","📖 每天下午在公園短暫散步，有助於減輕她長時間讀書所積累的壓力。\nrelieve (vt.) 減輕；寬慰；解除。relieve stress = 減輕壓力，固定搭配。"],
+[8,"FILL","The teenager became so a_______d to checking his phone every few minutes that he could not focus on anything for more than ten seconds.","addicted",null,"a_______d|unable to stop doing something because of habit; hooked on; opposite of free from","📖 他對每隔幾分鐘查看手機變得如此上癮，以致無法專注於任何事情超過十秒。\naddict (vt.) 使上癮（沈迷）。be addicted to = 對…上癮，固定搭配（過去分詞作形容詞）。"],
+[9,"FILL","The new principal spoke with a_________y — every teacher in the room immediately understood that her decisions were final.","authority",null,"a_________y|the power or right to give orders and make decisions; confident command","📖 新校長說話充滿權威——房間裡的每位老師立刻明白她的決定是最終的。\nauthority (n.) 權威（力）；當局（複數）。speak with authority = 以權威口吻說話。"],
+[10,"FILL","Regular exercise, i_________g both aerobic and strength training, is i_________e for understanding how the body adapts over time.","involving / informative",null,"i_________g / i_________e|including different types; educational about how the body works","📖 定期運動，包括有氧和力量訓練，對於了解身體如何隨時間適應非常有啟發性。\ninvolving (prep. 用法) 包含；informative (a.) 能增進知識的。兩字皆為本週核單。"],
+[11,"FILL","The research provides strong e_______e that a balanced diet can significantly reduce the risk of chronic illness.","evidence",null,"e_______e|facts that support a conclusion; proof gathered through research or observation","📖 這項研究提供了有力證據，表明均衡飲食能顯著降低慢性病的風險。\nevidence (n.) 證據。provide evidence = 提供證據；strong evidence = 有力的證據。"],
+[12,"FILL","Lin worked two part-time jobs to a_______e enough savings to study abroad for a full academic year.","acquire",null,"a_______e|to obtain through effort; to build up something through work or time","📖 她做了兩份兼職工作，以積攢足夠的積蓄，在海外讀一整個學年。\nacquire (vt.) 獲得。acquire savings = 積攢存款（此處取「獲得」義）。"],
+[13,"FILL","The a_________y of the local health department ordered all restaurants to display their hygiene inspection scores publicly.","authority",null,"a_________y|an official organization with the power to make and enforce rules","📖 地方衛生局要求所有餐廳公開展示其衛生檢查分數。\nauthority (n.) 當局（此處用複數概念的單數形）。the authority ordered = 當局下令。"],
+[14,"FILL","Playing video games for more than six hours a day can a_______t teenagers and interfere with sleep and schoolwork.","addict",null,"a_______t|to cause someone to become dependent on something through repeated use","📖 每天玩超過六小時的電玩可能使青少年上癮，並干擾睡眠和學業。\naddict (vt.) 使上癮（沈迷）。addict teenagers = 使青少年上癮。"],
+[15,"FILL","The lecture was so i_________e that several students asked the professor for a reading list afterward.","informative",null,"i_________e|full of useful facts and knowledge; educational and worth listening to","📖 這堂課內容非常豐富，課後有幾位學生請教授提供閱讀書單。\ninformative (a.) 有內容的；能增進知識的。an informative lecture = 內容豐富的講課。"],
+[16,"FILL","Yoga and meditation are known to r_______e anxiety and help people maintain a calm and focused state of mind.","relieve",null,"r_______e|to ease or lessen a negative feeling or condition; to bring relief from pressure","📖 瑜伽和冥想以能減輕焦慮並幫助人們保持平靜專注的心理狀態而聞名。\nrelieve (vt.) 減輕；寬慰。relieve anxiety = 減輕焦慮，固定搭配。"],
+[17,"FILL","The project will i_______e collaboration between three departments and require everyone to adjust their schedules.","involve",null,"i_______e|to include and require participation from; to make necessary","📖 這個專案將涉及三個部門之間的合作，並需要所有人調整時間表。\ninvolve (vt.) 包含，需要。involve collaboration = 需要合作。"],
+[18,"FILL","A growing e_______y depends on innovation, education, and a workforce that is willing to adapt to change.","economy",null,"e_______y|the wealth and resources of a country; the system of production and trade","📖 一個持續成長的經濟體有賴於創新、教育，以及願意適應變化的勞動力。\neconomy (n.) 經濟。a growing economy = 持續成長的經濟體。"],
+[19,"FILL","The investigation found no e_______e of wrongdoing — all the financial records were accurate and properly filed.","evidence",null,"e_______e|information or facts indicating whether something occurred; proof","📖 調查未發現任何不法行為的證據——所有財務紀錄都是準確且妥善歸檔的。\nevidence (n.) 證據。no evidence of = 沒有……的證據，固定搭配。"],
+[20,"FILL","The language learner gradually a_______d fluency in Japanese by watching films, reading manga, and practicing with native speakers daily.","acquired",null,"a_______d|gained a skill or ability over time through repeated practice and exposure","📖 她透過看電影、閱讀漫畫以及每天和母語人士練習，逐漸習得了日語流利度。\nacquire (vt.) 習得。acquired fluency = 習得了流利度（過去式）。"]
+],
+C:[
+
+[1,"CTX","The seminar was ______ — attendees left with concrete strategies they could apply immediately at work.",["facial","physical","informative","productive"],2,null,"informative（有內容的）符合「帶走具體策略可立即應用」的正面學習成果。boring/confusing/repetitive 為反義。"],
+[2,"CTX","The project will ______ close cooperation between the science and engineering departments.",["involve","evidence","establish","defend"],0,null,"involve（需要；包含）符合「需要科學與工程部門密切合作」的語境。involve cooperation = 需要合作。"],
+[3,"CTX","A growing ______ creates more job opportunities and raises the standard of living for its citizens.",["community","economy","authority","district"],1,null,"economy（經濟）搭配「創造就業機會、提升生活水準」的正向發展語境。"],
+[4,"CTX","The police found no ______ of forced entry — the thief must have had a key.",["involve","establish","evidence","defend"],2,null,"evidence（證據）搭配「強行闖入的跡象」，no evidence of = 沒有…的證據，固定搭配。"],
+[5,"CTX","The intern gradually ______ the confidence she needed to speak in front of large audiences.",["involve","evidence","acquired","establish"],2,null,"acquire（習得；獲得）搭配「逐漸建立自信」的漸進過程，acquired confidence = 習得了自信。"],
+[6,"CTX","All students, ______ those who joined late, must complete the assignment by Friday.",["excluding","including","involving","acquiring"],1,null,"including（包括）固定搭配，including those who... = 包括那些…的人，不排除任何人。"],
+[7,"CTX","A warm bath and soft music helped ______ the tension the project manager had built up after the stressful meeting.",["involve","evidence","establish","relieve"],3,null,"relieve（減輕）搭配「舒緩會議後的壓力」，relieve tension = 減輕緊張，固定搭配。"],
+[8,"CTX","The software developer became so ______ to caffeine that skipping his morning coffee gave him severe headaches.",["informative","addicted","facial","physical"],1,null,"addicted（上癮的）搭配「跳過咖啡因導致頭痛」的依賴症狀，be addicted to = 對…上癮。"],
+[9,"CTX","Principal Wang spoke with such ______ that no one dared question her decision.",["community","economy","authority","district"],2,null,"authority（權威）搭配「沒有人敢質疑她的決定」，speak with authority = 以權威口吻說話。"],
+[10,"ROOT","The word \"evidence\" contains the root \"vid/vis\" meaning to ______.",["see","involve","evidence","establish"],0,null,"vid/vis = 看（拉丁語 videre）。evidence = 能被看見的事物 → 證據；visible = 能被看見的；video = 影像。"],
+[11,"ROOT","\"Addict\" comes from Latin \"addictus\" meaning assigned or devoted. Which modern meaning best reflects this origin?",["being completely given over to a habit","choosing freely","having authority","acquiring knowledge"],0,null,"addictus = 被指派、完全歸屬於（拉丁語）。addict = 完全被某習慣所占據 → 上癮者。"],
+[12,"ROOT","The suffix \"-ive\" in \"informative\" turns a verb into ______.",["a noun","an adverb","another verb","an adjective meaning tending to or having the quality of"],3,null,"-ive 將動詞轉為形容詞，表「具有…傾向或性質的」。inform → informative；create → creative；attract → attractive。"],
+[13,"CTX","The factory closure had a serious effect on the local ______, leaving hundreds of workers unemployed.",["economy","community","authority","district"],0,null,"economy（經濟）搭配「工廠關閉影響地方、工人失業」的負面經濟衝擊語境。"],
+[14,"CTX","The new drug showed promising results, but researchers said more ______ was needed before it could be approved.",["evidence","involve","establish","defend"],0,null,"evidence（證據）搭配「需要更多證據才能批准藥物」的研究語境，more evidence = 更多證據。"],
+[15,"CTX","Playing mobile games for hours every night can ______ young children and interfere with their sleep.",["involve","evidence","establish","addict"],3,null,"addict（使上癮）搭配「每晚玩遊戲數小時、干擾睡眠」的成癮語境，addict children = 使兒童上癮。"],
+[16,"CTX","The health minister used her ______ to fast-track the approval of the new vaccine during the outbreak.",["authority","community","economy","district"],0,null,"authority（權威力）搭配「加速批准疫苗」的官方行使職權語境，use one's authority = 行使權力。"],
+[17,"CTX","The program aims to ______ young people in community decision-making so their voices are heard.",["evidence","establish","defend","involve"],3,null,"involve（使涉入）搭配「讓年輕人參與社區決策」，involve sb. in = 讓某人參與…，固定搭配。"],
+[18,"CTX","Listening to her favorite playlist always helped ______ her anxiety before important exams.",["involve","relieve","evidence","establish"],1,null,"relieve（減輕）搭配「聽音樂減輕考前焦慮」，relieve anxiety = 減輕焦慮，固定搭配。"],
+[19,"CTX","The home chef ______ her cooking skills by watching videos, reading cookbooks, and practicing every weekend.",["involve","evidence","acquired","establish"],2,null,"acquire（習得）搭配「透過觀看、閱讀、練習習得烹飪技巧」的漸進學習語境。"],
+[20,"CTX","The report, ______ data from fifty countries, painted a clear picture of global health trends.",["including","involving","acquiring","relieving"],0,null,"including（包括）固定搭配，including data from = 包含來自…的數據，修飾前面的 report。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 2  B1 L5–L8 + Core Vocab L3 U04–U06
+// ─────────────────────────────────────────────────────────────────────
+w2:{week:2,dates:"7/7–7/13",srcA:"龍騰課本 B1 L5–L8",srcB:"核單 L4 U02",srcC:"核單 L4 U02 進階",
+A:[
+[1,"MC","The scientist's ______ discovery changed the way we understand the human brain.",["daunted","cautious","remarkable","pioneering"],2,null,"remarkable (adj.) 非凡的；值得注意的。remark + -able → 值得被提及的。"],
+[2,"MC","The student ______ the difficult math problem by breaking it into smaller steps.",["negotiate","solved","explore","deny"],1,null,"solve (vt.) 解決。solve a problem = 解決問題，固定搭配。"],
+[3,"MC","The event team had to ______ their plan after the unexpected storm ruined the outdoor event.",["adjust","inspire","ignore","perform"],0,null,"adjust (vt.) 調整。adjust one's plan = 調整計畫。"],
+[4,"MC","His ______ behavior in class — always interrupting and never listening — frustrated the teacher.",["embarrassed","collaborative","disruptive","disappointed"],2,null,"disruptive (adj.) 擾亂秩序的。dis-（分開）+ rupt（破裂）→ 打斷流程。"],
+[5,"MC","Maya ______ the opportunity to study abroad without hesitation.",["respond","transform","seized","connect"],2,null,"seize (vt.) 抓住（機會）。seize the opportunity = 抓住機會，固定搭配。"],
+[6,"MC","The film was so ______ that even the director admitted it needed major editing.",["reliable","extraordinary","scientific","flawed"],3,null,"flawed (adj.) 有缺陷的。flaw（缺陷）+ -ed → 帶有缺陷的。"],
+[7,"MC","The marketing director's decision to quit her job was ______ — she had been planning it for two years.",["deliberate","flawed","capable","amazing"],0,null,"deliberate (adj.) 深思熟慮的；故意的。de-（完全）+ liber（自由）→ 完全自由地做選擇。"],
+[8,"MC","The documentary ______ the daily struggles of farmers in drought-hit areas.",["assign","indicate","portrayed","portray"],2,null,"portray (vt.) 描繪；刻畫。portray + 生活現實 = 真實呈現。"],
+[9,"MC","Without a clear ______, the project drifted from one topic to another with no real focus.",["exposure","direction","relationship","cost"],1,null,"direction (n.) 方向；指引。without direction = 沒有明確方向。"],
+[10,"MC","The new policy is designed to ______ equal opportunities for all students regardless of background.",["breathe","blame","seize","ensure"],3,null,"ensure (vt.) 確保。ensure + that 子句 / ensure + N = 確保某事發生。"],
+[11,"MC","Despite the ______ criticism from reviewers, the book became a bestseller among young readers.",["harsh","depressed","impressive","hectic"],0,null,"harsh (adj.) 嚴厲的；苛刻的。harsh criticism = 嚴厲批評。"],
+[12,"MC","The soldier ______ her fear of heights by climbing a ten-meter wall during the training camp.",["conquered","distract","communicate","enable"],0,null,"conquer (vt.) 克服；征服。conquer one's fear = 克服恐懼，固定搭配。"],
+[13,"MC","The judge asked the witness to ______ every detail of what happened that night.",["describe","earn","require","ensure"],0,null,"describe (vt.) 描述。describe in detail = 詳細描述。"],
+[14,"MC","His constant ______ about the food made the other guests uncomfortable at the dinner table.",["sincerity","complaints","access","injury"],1,null,"complaints (n.) 抱怨（複數）。constant complaints = 不斷的抱怨。"],
+[15,"MC","The organization works hard to ______ traditional crafts that are at risk of disappearing.",["survive","locate","eliminate","preserve"],3,null,"preserve (vt.) 保存；維護。preserve traditions / culture = 保存傳統文化。"],
+[16,"MC","Her ______ tone of voice calmed the panicking crowd in seconds.",["concrete","steady","focused","embarrassed"],1,null,"steady (adj.) 穩定的；沉著的。a steady voice = 沉穩的聲音。"],
+[17,"MC","The experiment ______ that the new drug reduced symptoms by more than sixty percent.",["distract","create","demonstrated","breathe"],2,null,"demonstrate (vt.) 證明；示範。demonstrate that... = 證明…。"],
+[18,"MC","Professor Chen ______ her schedule so that she could attend both the morning lecture and the afternoon workshop.",["capture","promote","introduce","rearranged"],3,null,"rearrange (vt.) 重新安排。re-（再）+ arrange → 重新安排。"],
+[19,"MC","The ______ of the ancient temple attracted thousands of tourists every year.",["behavior","grandeur","flight","complaints"],1,null,"grandeur (n.) 宏偉；壯麗。the grandeur of... = …的壯麗/宏偉。"],
+[20,"MC","The team captain finally ______ that he had made a mistake and apologized sincerely to his teammate.",["condense","decline","enable","admitted"],3,null,"admit (vt.) 承認。admit that... = 承認…（後接子句）。"]
+],
+B:[
+
+[1,"FILL","After the fire alarm turned out to be a false alarm, the principal asked everyone to p_______d with the normal class schedule.","proceed",null,"p_______d|to continue or move forward; to carry on after a pause; opposite of stop","📖 火災警報被確認為誤報後，校長要求所有人繼續正常的課程時間表。\nproceed (vi.) 繼續；前進；著手。proceed with = 繼續進行…，固定搭配。"],
+[2,"FILL","The senator introduced a new bill to C_______s aimed at strengthening environmental protection laws.","Congress",null,"C_______s|the national law-making body in the United States; made up of the Senate and House","📖 這位參議員向國會提出了一項新法案，旨在強化環境保護法律。\nCongress (n.) 國會（美國）。introduce a bill to Congress = 向國會提出法案。"],
+[3,"FILL","The sudden d_______d for face masks during the outbreak caused prices to rise sharply and supplies to run low.","demand",null,"d_______d|a strong need or request for something; what buyers want in a market","📖 疫情爆發期間對口罩的突然需求導致價格急劇上漲、供應緊缺。\ndemand (n.) 需求。demand for = 對…的需求，固定搭配。"],
+[4,"FILL","Teaching is a p_________n that requires not only academic knowledge but also patience, empathy, and strong communication skills.","profession",null,"p_________n|a career requiring specialized training and education; a skilled occupation","📖 教學是一種不僅需要學術知識，還需要耐心、同理心和強大溝通技巧的職業。\nprofession (n.)（需專業訓練的）職業。a demanding profession = 要求高的職業。"],
+[5,"FILL","A balanced breakfast should c_______t of protein, complex carbohydrates, and fresh fruit to provide lasting energy.","consist",null,"c_______t of|to be made up of; to be composed of specific parts or ingredients","📖 均衡的早餐應由蛋白質、複合碳水化合物和新鮮水果組成，以提供持久能量。\nconsist (vi.) 由……組成。consist of = 由…組成，固定搭配（後接名詞，不用被動）。"],
+[6,"FILL","The coach a_______d the team that their preparation was thorough and that they were ready to compete at the highest level.","assured",null,"a_______d|told someone with confidence; promised; made someone feel certain","📖 教練向隊員保證，他們的準備工作非常充分，已準備好在最高水準上競賽。\nassure (vt.) 向……保證；使確信。assured the team that = 向隊員保證…（過去式）。"],
+[7,"FILL","Although Maya was naturally t_____d in large crowds, she pushed herself to speak up and gradually became more confident.","timid",null,"t_____d|shy and easily frightened; lacking boldness; opposite of confident or brave","📖 雖然她天生在人群中比較膽小，但她逼自己開口說話，逐漸變得更有自信。\ntimid (a.) 膽小的。naturally timid = 天生膽小。"],
+[8,"FILL","The new analyst had a t_______y to overthink small problems, which sometimes made simple decisions feel unnecessarily complicated.","tendency",null,"t_______y|a habit of behaving in a certain way; a natural inclination; a leaning toward","📖 她有過度思考小問題的傾向，有時讓簡單的決定感覺不必要地複雜。\ntendency (n.) 傾向。a tendency to + V = 有做…的傾向，固定搭配。"],
+[9,"FILL","The travel a_____y arranged every detail of the trip, from hotel bookings to guided tours at each destination.","agency",null,"a_____y|a business that provides a service on behalf of others; an organization with a specific role","📖 旅行社安排了旅途的每個細節，從飯店預訂到每個目的地的導覽行程。\nagency (n.) 代理商，機構，代辦處。travel agency = 旅行社，固定搭配。"],
+[10,"FILL","The sports center offers world-class f_________s, including an Olympic-sized swimming pool and an indoor climbing wall.","facilities",null,"f_________s|buildings, equipment, or services provided for a particular purpose","📖 這座運動中心提供世界級的設施，包括奧林匹克標準游泳池和室內攀岩牆。\nfacility (n.) 設備，設施；便利（複數）。world-class facilities = 世界級設施。"],
+[11,"FILL","You must arrive before 9 a.m.; o_________e, the workshop will have already started and late entry will not be permitted.","otherwise",null,"o_________e|if not; or else; used to show what will happen if a condition is not met","📖 你必須在早上九點前到達；否則工作坊將已開始，不允許遲到入場。\notherwise (adv.) 否則；另外，在其他方面。固定用法：otherwise + 句子 = 否則…。"],
+[12,"FILL","The concert hall has a seating c_______y of two thousand people, making it the largest venue in the city.","capacity",null,"c_______y|the maximum amount something can hold or contain; ability to do something","📖 這座音樂廳的座位容量為兩千人，使其成為城市中最大的場地。\ncapacity (n.) 容量；能力；職能。seating capacity = 座位容量，固定搭配。"],
+[13,"FILL","Clear c_____________n between team members is essential — without it, even the best plan will fall apart during execution.","communication",null,"c_____________n|the sharing of information between people; how ideas and messages are exchanged","📖 團隊成員之間清晰的溝通至關重要——沒有它，即使是最好的計畫在執行時也會崩潰。\ncommunication (n.) 通訊；溝通；傳達。clear communication = 清晰的溝通，固定搭配。"],
+[14,"FILL","The coffee shop had a warm and welcoming a_________e — the soft lighting and gentle music made everyone feel instantly at ease.","atmosphere",null,"a_________e|the mood or feeling of a place; the general tone of an environment","📖 這家咖啡廳氣氛溫馨而熱情——柔和的燈光和輕柔的音樂讓每個人立刻感到放鬆。\natmosphere (n.) 大氣；氣氛；環境。a warm atmosphere = 溫馨的氣氛。"],
+[15,"FILL","His j_______y of his classmate's success made it impossible for him to celebrate her achievement with sincerity.","jealousy",null,"j_______y|the feeling of wanting what someone else has; resentment of another's success","📖 他對同學成功的嫉妒使他無法真誠地為她的成就慶祝。\njealousy (n.) 嫉妒。out of jealousy = 出於嫉妒。"],
+[16,"FILL","Wearing a seatbelt is the single most effective measure for p_________n of serious injury in a car accident.","prevention",null,"p_________n|stopping something harmful before it happens; keeping something bad from occurring","📖 繫上安全帶是預防車禍中嚴重傷害最有效的單一措施。\nprevention (n.) 預防。prevention of = 對…的預防；disease prevention = 疾病預防。"],
+[17,"FILL","The intern made o_________l mistakes, but her overall accuracy was so high that the errors barely affected her grade.","occasional",null,"o_________l|happening sometimes but not often; every now and then; opposite of frequent","📖 她偶爾會犯一些錯誤，但她整體的準確性如此之高，以致這些錯誤幾乎不影響她的成績。\noccasional (a.) 偶爾的。occasional mistakes = 偶爾的錯誤。"],
+[18,"FILL","The job listing d_______d at least three years of experience and proficiency in two programming languages.","demanded",null,"d_______d|required; asked for as a necessary condition; made necessary","📖 這份工作徵才要求至少三年工作經驗以及兩種程式語言的熟練度。\ndemand (vt.) 要求。demanded at least... = 要求至少…（過去式）。"],
+[19,"FILL","The school's outdoor a_________s include a gymnasium, a running track, and two covered basketball courts.","facilities",null,"f_________s|physical resources or equipment available for use; what a school or venue provides","📖 這所學校的戶外設施包括體育館、跑道和兩座有頂棚的籃球場。\nfacility (n.)（複數）設備，設施。outdoor facilities = 戶外設施。"],
+[20,"FILL","Professor Lin a_______d her students that the exam would be fair and that all questions would come directly from the textbook.","assured",null,"a_______d|promised with confidence; removed someone's doubt; made someone feel certain","📖 她向學生保證考試將是公平的，所有題目都會直接來自課本。\nassure (vt.) 向……保證。assured sb. that = 向某人保證…（過去式）。"]
+],
+C:[
+
+[1,"CTX","After verifying that all safety checks were complete, the flight crew gave permission to ______.",["demand","reflect","refer","proceed"],3,null,"proceed（繼續；前進）搭配「完成安全檢查後獲准繼續」，proceed with = 繼續進行。"],
+[2,"CTX","The bill passed both houses of ______ and was signed into law by the president the following week.",["observation","conference","circumstance","Congress"],3,null,"Congress（國會）搭配「兩院通過、總統簽署成法」的美國立法語境。"],
+[3,"CTX","Consumer ______ for electric vehicles has risen sharply as fuel prices continue to climb.",["proceed","demand","reflect","refer"],1,null,"demand（需求）搭配「電動車需求上升、燃料價格攀升」的市場語境，demand for = 對…的需求。"],
+[4,"CTX","Medicine is a ______ that requires years of study, ongoing training, and a genuine commitment to patient care.",["profession","observation","congress","conference"],0,null,"profession（需專業訓練的職業）搭配「多年學習、持續培訓」的職業描述語境。"],
+[5,"CTX","A healthy diet should ______ of a variety of vegetables, proteins, and whole grains consumed in balanced portions.",["consist","proceed","demand","reflect"],0,null,"consist of（由…組成）固定搭配，a diet consists of = 飲食由…組成，後接名詞不用被動。"],
+[6,"CTX","The doctor ______ the patient that the procedure was routine and that the recovery time would be minimal.",["demanded","assured","proceeded","consisted"],1,null,"assure（向…保證）搭配「醫生向病人保證手術例行、恢復時間短」，assured sb. that = 向某人保證…。"],
+[7,"CTX","Though ______ at first, the new exchange student gradually opened up as she realized the group was welcoming and non-judgmental.",["tribal","occasional","timid","nuclear"],2,null,"timid（膽小的）搭配「起初害羞、逐漸打開心房」的性格轉變語境，naturally timid = 天生膽小。"],
+[8,"CTX","The graduate student had a ______ to procrastinate, but she learned to overcome it by breaking tasks into smaller steps.",["tendency","observation","congress","conference"],0,null,"tendency（傾向）搭配「有拖延傾向、學習克服」，a tendency to + V = 有做…的傾向，固定搭配。"],
+[9,"CTX","The advertising ______ created a campaign that increased brand awareness by forty percent in just two months.",["observation","congress","conference","agency"],3,null,"agency（代理機構）搭配「廣告公司創造活動、提升品牌知名度」，advertising agency = 廣告公司，固定搭配。"],
+[10,"CTX","The university's sports ______ include an Olympic pool, a gym, and six tennis courts available to all students.",["tendencies","capacities","facilities","communications"],2,null,"facilities（設施）搭配「大學體育設施包括游泳池、健身房、球場」，sports facilities = 體育設施。"],
+[11,"CTX","You need to register before noon; ______, you will not be guaranteed a place in the workshop.",["moreover","nevertheless","largely","otherwise"],3,null,"otherwise（否則）搭配「中午前報名，否則無法保證有名額」，固定用法：條件句 + otherwise + 後果。"],
+[12,"CTX","The theater has a seating ______ of five hundred and is fully booked for every performance this season.",["observation","congress","capacity","conference"],2,null,"capacity（容量）搭配「劇院座位容量五百、全季滿座」，seating capacity = 座位容量，固定搭配。"],
+[13,"CTX","Open ______ between managers and staff is the foundation of a healthy and productive workplace.",["observation","congress","communication","conference"],2,null,"communication（溝通）搭配「管理者與員工之間開放溝通是健康職場的基礎」，open communication = 開放溝通。"],
+[14,"CTX","The café had a relaxed, artistic ______ — mismatched furniture, soft jazz, and walls covered in local artwork.",["atmosphere","observation","congress","conference"],0,null,"atmosphere（氣氛）搭配「放鬆的藝術氛圍、不成套的家具、爵士樂、藝術品」的場景描述。"],
+[15,"CTX","Her ______ of her sister's talent drove a wedge between them that took years of honest conversation to heal.",["observation","jealousy","congress","conference"],1,null,"jealousy（嫉妒）搭配「對姐妹才能的嫉妒造成裂痕、需多年才能修復」，jealousy of = 對…的嫉妒。"],
+[16,"CTX","Early ______ is the most effective strategy for managing chronic diseases before they become life-threatening.",["observation","prevention","congress","conference"],1,null,"prevention（預防）搭配「早期預防是管理慢性病最有效的策略」，early prevention = 早期預防，固定搭配。"],
+[17,"CTX","The overseas worker made ______ visits to her hometown, usually just once or twice a year during the major holidays.",["timid","tribal","occasional","nuclear"],2,null,"occasional（偶爾的）搭配「每年一兩次、假期期間」的低頻訪問語境，occasional visits = 偶爾的拜訪。"],
+[18,"ROOT","The root \"tend\" in tendency and attend both relate to ______.",["speak","build","see","stretch / move toward"],3,null,"tend = 伸展、趨向（拉丁語 tendere）。tendency = 朝某方向發展的傾向；attend = 朝向（出席）；extend = 向外伸展。"],
+[19,"ROOT","\"Com-\" in communication and community both suggest ______.",["otherwise","moreover","nevertheless","together / shared"],3,null,"com- = 共同、一起。communication = 共同傳遞資訊；community = 共同生活的群體；communicate = 共同分享。"],
+[20,"ROOT","The suffix \"-ity\" in capacity and jealousy turns an adjective or noun into ______.",["a verb","an adjective","a noun indicating a state or quality","an adverb"],2,null,"-ity/-ty 將形容詞或名詞轉為表「狀態或性質」的名詞。capable → capacity；jealous → jealousy；active → activity。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 3  B2 L1–L4 + Core Vocab L3 U07–U09
+// ─────────────────────────────────────────────────────────────────────
+w3:{week:3,dates:"7/14–7/20",srcA:"龍騰課本 B1 L9 + B2 L1–L3",srcB:"核單 L4 U03",srcC:"核單 L4 U03 進階",
+A:[
+[1,"MC","The government launched a campaign to ______ awareness about mental health among teenagers.",["lower","raise","ignore","block"],1,null,"raise awareness（提升意識）是固定搭配。raise awareness about = 提升對…的意識。"],
+[2,"MC","After the earthquake, thousands of families were ______ and had to live in temporary shelters.",["displaced","celebrated","inspired","rewarded"],0,null,"displaced (adj.) 流離失所的。dis-（離開）+ place → 被迫離開原來的地方。"],
+[3,"MC","Dr. Chen's ______ attitude made it easy for her to work with people from all different backgrounds.",["rigid","narrow","stubborn","flexible"],3,null,"flexible (adj.) 彈性的；靈活的。flex-（彎曲）+ -ible → 能夠彎曲調整的。"],
+[4,"MC","The lawyer carefully ______ each piece of evidence to identify patterns and contradictions before presenting her argument in court.",["analyzed","collected","ignored","celebrated"],0,null,"analyze (vt.) 分析。'identify patterns and contradictions' 鎖定 analyzed；collected 只是蒐集，不涉及找出規律。"],
+[5,"MC","The project required ______ cooperation between the engineering and design teams.",["minimal","occasional","extensive","random"],2,null,"extensive (adj.) 大量的；廣泛的。extensive cooperation = 大量合作。"],
+[6,"MC","The editor was known for her ______ attention to detail — nothing ever slipped past her.",["reckless","remarkable","concrete","pioneering"],1,null,"remarkable (adj.) 非凡的。remarkable attention to detail = 非凡的細心程度。"],
+[7,"MC","To ______ costs, the company switched from paper reports to digital formats.",["increase","maintain","reduce","ignore"],2,null,"reduce costs（降低成本）是固定搭配。reduce = re-（回）+ duc（引導）→ 引導回到更低水平。"],
+[8,"MC","The athlete's ______ performance in the final race earned her a spot on the Olympic team.",["outstanding","average","disappointing","questionable"],0,null,"outstanding (adj.) 傑出的；出色的。out-（超出）+ stand → 站出來超越其他。"],
+[9,"MC","The ______ of the new park gave residents a much-needed green space in the crowded city.",["removal","construction","establishment","closure"],2,null,"establishment (n.) 建立；設立。the establishment of = …的設立/創建。"],
+[10,"MC","The job applicant ______ the interview panel with her knowledge, confidence, and clear communication skills.",["bored","frightened","impressed","confused"],2,null,"impress (vt.) 使留下深刻印象。impress sb. with sth. = 以某事使某人印象深刻。"],
+[11,"MC","The documentary ______ a rarely seen side of life in remote mountain villages.",["created","revealed","imagined","avoided"],1,null,"reveal (vt.) 揭露；呈現。reveal a side of... = 呈現…的一面。"],
+[12,"MC","The CEO's ______ response to the crisis helped prevent further damage to the company's reputation.",["slow","careless","delayed","swift"],3,null,"swift (adj.) 迅速的。a swift response = 快速回應。"],
+[13,"MC","The teacher's ______ explanation made even the most complex grammar rules easy to understand.",["confusing","lengthy","boring","clear"],3,null,"clear explanation = 清楚的解釋，能讓複雜規則變得易懂。"],
+[14,"MC","The new hire worked hard to ______ a positive relationship with her colleagues from day one.",["function","build","solve","earn"],1,null,"build a relationship（建立關係）是固定搭配。build = 逐步建立。"],
+[15,"MC","The storm caused widespread ______ — roads flooded and power lines were knocked down.",["improvement","celebration","relief","damage"],3,null,"damage (n.) 損害；破壞。widespread damage = 大規模破壞。cause damage = 造成損害。"],
+[16,"MC","The firefighter showed great ______ by staying calm and making decisions under extreme pressure.",["composure","panic","confusion","hesitation"],0,null,"composure (n.) 冷靜；鎮定。composure under pressure = 壓力下的沉著。"],
+[17,"MC","The campaign was so ______ that it raised more money in one week than any other in the organization's history.",["pointless","effective","expensive","controversial"],1,null,"effective (adj.) 有效的。an effective campaign = 有效的活動。"],
+[18,"MC","The writing teacher asked students to ______ their essays before submitting them to check for errors.",["write","translate","submit","proofread"],3,null,"proofread (vt.) 校對；修改錯誤。proofread an essay = 校對文章。"],
+[19,"MC","The ______ of the ancient palace took twenty years and involved hundreds of skilled workers.",["destruction","abandonment","restoration","construction"],2,null,"restoration (n.) 修復；復原。the restoration of = 對…的修復（古建築語境）。"],
+[20,"MC","Without consistent ______, even the most gifted students will fail to reach their full potential.",["effort","talent","luck","funding"],0,null,"consistent effort（持續的努力）才能讓天賦發揮潛能。consistent = 一貫的；穩定的。"]
+],
+B:[
+
+[1,"FILL","The new wearable d_____e tracks your heart rate, sleep patterns, and daily step count all in one compact band.","device",null,"d_____e|a piece of equipment made for a specific purpose; a tool or gadget","📖 這款新的穿戴式裝置將你的心率、睡眠模式和每日步數統一追蹤在一個緊湊的手環中。\ndevice (n.) 裝置；手段。wearable device = 穿戴式裝置，固定搭配。"],
+[2,"FILL","The restaurant had excellent food; m_______r, the service was fast and the prices were surprisingly affordable.","moreover",null,"m_______r|in addition; besides; used to add a stronger or more important point","📖 這家餐廳的食物非常出色；此外，服務迅速，價格也出乎意料地實惠。\nmoreover (adv.) 此外，而且。用於加強前一句的論點。"],
+[3,"FILL","The president will d_______e a national holiday to honor the victims of the tragedy that occurred ten years ago.","declare",null,"d_______e|to announce officially and publicly; to state something with authority","📖 總統將宣布一個全國假日，以紀念十年前這場悲劇的遇難者。\ndeclare (vt.) 宣布；申報。declare a holiday = 宣布假日，固定搭配。"],
+[4,"FILL","The protesters gathered outside the facility to oppose the construction of a new n_______r power plant near the city.","nuclear",null,"n_______r|relating to the energy released from the nucleus of an atom; atomic","📖 抗議者聚集在設施外，反對在城市附近建造新的核能發電廠。\nnuclear (a.) 核子的；原子核的。nuclear power plant = 核能發電廠，固定搭配。"],
+[5,"FILL","The environmental group launched a c_______n to reduce plastic waste by encouraging people to bring their own bags.","campaign",null,"c_______n|an organized effort to achieve a goal; a series of actions aimed at a cause","📖 這個環保團體發起了一場活動，透過鼓勵人們自帶購物袋來減少塑膠廢棄物。\ncampaign (n.) 運動；戰役。launch a campaign = 發起活動，固定搭配。"],
+[6,"FILL","Scientists used DNA analysis to i_______y the remains found at the archaeological site as belonging to a Bronze Age warrior.","identify",null,"i_______y|to recognize and name who or what something is; to establish the identity of","📖 科學家使用DNA分析，確認在考古遺址發現的遺骸屬於一名青銅時代的戰士。\nidentify (vt.) 辨認；認同。identify the remains as = 確認遺骸為…。"],
+[7,"FILL","The judge made a brief r_______k at the end of the trial, praising both legal teams for their professionalism.","remark",null,"r_______k|a comment or observation made in speech or writing; a brief statement","📖 法官在審判結束時做了簡短評論，表揚兩個法律團隊的專業精神。\nremark (n.) 評論；注意。make a remark = 發表評論，固定搭配。"],
+[8,"FILL","After two weeks of intense exams, all she wanted was some quiet r_________n — a long walk and a good book.","relaxation",null,"r_________n|rest and freedom from stress; an activity that helps one unwind","📖 經歷兩週緊張的考試後，她只想要一些安靜的放鬆——一次長時間的散步和一本好書。\nrelaxation (n.) 放鬆；消遣。a form of relaxation = 一種放鬆方式。"],
+[9,"FILL","The weather was terrible; n_____________s, the outdoor concert went ahead and the crowd stayed until the very end.","nevertheless",null,"n_____________s|despite that; even so; used to show something happened in spite of difficulties","📖 天氣非常惡劣；儘管如此，戶外音樂會還是如期進行，觀眾一直留到最後。\nnevertheless (adv.) 儘管如此，然而。固定用法：句一；nevertheless，句二。"],
+[10,"FILL","The manager was afraid that her words might be m______________d, so she chose each sentence carefully before speaking.","misunderstood",null,"m______________d|interpreted incorrectly; taken to mean something different from what was intended","📖 她擔心自己的話可能被誤解，所以在開口前仔細選擇了每一句話。\nmisunderstand (vt.) 誤解。be misunderstood = 被誤解（被動語態）。"],
+[11,"FILL","Problems often a____e when communication breaks down — a simple misunderstanding can quickly turn into a serious conflict.","arise",null,"a____e|to come up or appear; to develop from a situation; to emerge as a problem","📖 當溝通中斷時，問題往往會出現——一個簡單的誤解很快就可能演變成嚴重衝突。\narise (vi.) 出現，發生；起身。problems arise when = 當…時問題出現。"],
+[12,"FILL","Emma used a simple wooden f_____e to display the photograph from her graduation ceremony on the living room wall.","frame",null,"f_____e|a structure that surrounds or supports something; a border around a picture","📖 她用一個簡單的木框在客廳牆上展示她畢業典禮的照片。\nframe (n.) 框架；陷害；構成。a wooden frame = 木框。"],
+[13,"FILL","Several board members continued to o_____e the merger even after being shown data proving it would benefit the company.","oppose",null,"o_____e|to be against something; to disagree with and resist a plan or idea","📖 幾位董事會成員在被展示數據證明合併對公司有益後，仍繼續反對。\noppose (vt.) 反對；反抗。oppose the merger = 反對合併。"],
+[14,"FILL","The fire was a_________l — a candle left burning overnight had ignited the curtains while everyone was asleep.","accidental",null,"a_________l|happening by chance, not on purpose; unintended; opposite of deliberate","📖 這場火災是意外的——一支整夜燃燒的蠟燭在所有人睡著時點燃了窗簾。\naccidental (a.) 意外的；偶然的。an accidental fire = 意外引發的火災。"],
+[15,"FILL","The writer was a_______s enough to set a goal of publishing her first novel before the age of thirty — and she achieved it.","ambitious",null,"a_______s|having strong desires to succeed; aiming high; characterized by big goals","📖 她有足夠的抱負，立下在三十歲前出版第一本小說的目標——並且實現了它。\nambitious (a.) 有抱負的；雄心勃勃的。ambitious enough to = 有足夠抱負去做…。"],
+[16,"FILL","Please f_____n your seatbelt before the plane begins taxiing — it must remain buckled until the pilot gives clearance.","fasten",null,"f_____n|to attach or secure firmly; to buckle or clip something in place","📖 請在飛機開始滑行前繫好安全帶——在機長許可之前必須保持扣緊。\nfasten (vt.) 繫緊；扣住。fasten your seatbelt = 繫好安全帶，固定搭配。"],
+[17,"FILL","Three players were i_______d during the training session and had to be taken off the field for medical treatment.","injured",null,"i_______d|hurt or physically harmed; having sustained a bodily injury","📖 三名球員在訓練時受傷，不得不被帶離場地接受醫療治療。\ninjure (vt.) 傷害（身體）；損害。be injured = 受傷（被動語態）。"],
+[18,"FILL","The campaign urged people to d_______e their support publicly by signing the petition and sharing it online.","declare",null,"d_______e|to announce openly; to make something known to others in a clear and public way","📖 這場活動呼籲人們透過簽署請願書並在網上分享來公開宣布支持。\ndeclare (vt.) 宣布；申報。declare one's support = 宣布支持。"],
+[19,"FILL","A m_______r risk a_____es whenever workers skip safety checks — even one overlooked step can lead to serious accidents.","major / arises",null,"m_______r risk a_____es|a significant danger appears; problems emerge from carelessness","📖 每當工人跳過安全檢查時，重大風險就會出現——即使是一個被忽視的步驟也可能導致嚴重事故。\nmoreover 本週字；arise (vi.) 出現，發生。a risk arises = 風險出現。"],
+[20,"FILL","Her r_______k about the importance of kindness in leadership stayed with the audience long after the talk ended.","remark",null,"r_______k|a spoken or written comment; a brief but meaningful observation","📖 她關於領導力中善意重要性的評論，在演講結束後很長時間內仍留在聽眾心中。\nremark (n.) 評論；注意。a remark about = 關於…的評論。"]
+],
+C:[
+
+[1,"CTX","The smartwatch is a useful ______ that monitors your heart rate, counts your steps, and even reminds you to breathe.",["concept","tension","application","device"],3,null,"device（裝置）搭配「智慧手錶監測心率、計步、提醒呼吸」的智慧穿戴科技語境。"],
+[2,"CTX","The food was delicious; ______, the prices were very reasonable, making it the best value restaurant in town.",["nevertheless","moreover","otherwise","largely"],1,null,"moreover（此外）用於加強前一個正面論點：食物好吃，而且價格實惠。"],
+[3,"CTX","The mayor will ______ the city's new environmental policy at a press conference tomorrow morning.",["campaign","declare","identify","construct"],1,null,"declare（宣布）搭配「市長在記者會上宣布新政策」，declare a policy = 宣布政策，固定搭配。"],
+[4,"CTX","Several nations have signed treaties agreeing never to use ______ weapons under any circumstances.",["annual","accidental","ambitious","nuclear"],3,null,"nuclear（核子的）搭配「各國簽署條約同意永不使用核武」，nuclear weapons = 核武，固定搭配。"],
+[5,"CTX","The charity launched a ______ to raise awareness about ocean pollution and encourage people to reduce plastic use.",["declare","identify","construct","campaign"],3,null,"campaign（運動）搭配「發起活動提升海洋污染意識」，launch a campaign = 發起活動，固定搭配。"],
+[6,"CTX","Scientists were able to ______ the rare bird species by analyzing its feather patterns and wing shape.",["identify","declare","campaign","construct"],0,null,"identify（辨認）搭配「透過羽毛和翼形分析辨認鳥類」，identify a species = 辨認物種，固定搭配。"],
+[7,"CTX","The professor made a brief ______ about the importance of sleep before returning to the main topic of the lecture.",["declare","campaign","identify","remark"],3,null,"remark（評論）搭配「教授簡短評論後返回主題」，make a remark = 發表評論，固定搭配。"],
+[8,"CTX","After a stressful week, she spent Sunday morning in complete ______ — no phone, no plans, just tea and a book.",["device","concept","tension","relaxation"],3,null,"relaxation（放鬆）搭配「壓力大的一週後、沒有手機和計畫、只有茶和書」的完全休息語境。"],
+[9,"CTX","The evidence against him was strong; ______, he maintained his innocence throughout the entire trial.",["nevertheless","moreover","otherwise","largely"],0,null,"nevertheless（儘管如此）搭配「證據有力、儘管如此仍聲稱無罪」的讓步對比語境。"],
+[10,"CTX","The manager worried that her email might be ______ as criticism, so she added a friendly opening line before the feedback.",["declared","identified","opposed","misunderstood"],3,null,"misunderstand（誤解）搭配「擔心郵件被誤解為批評、加入友好開場白」，be misunderstood as = 被誤解為…。"],
+[11,"CTX","Conflict can ______ when people feel their opinions are not being heard or respected.",["declare","campaign","arise","identify"],2,null,"arise（出現，發生）搭配「當人們感到意見不被聆聽時衝突會出現」，conflict arises when = 當…時衝突出現。"],
+[12,"CTX","The photographer chose a simple wooden ______ for the photo, wanting the focus to remain on the image itself.",["declare","frame","campaign","identify"],1,null,"frame（框架）搭配「選擇簡單木框讓焦點在照片本身」，a wooden frame = 木框，固定搭配。"],
+[13,"CTX","Several senators chose to ______ the bill, arguing that it would harm small businesses across the country.",["declare","oppose","campaign","identify"],1,null,"oppose（反對）搭配「參議員反對法案、認為會傷害小企業」，oppose a bill = 反對法案，固定搭配。"],
+[14,"CTX","The collision was entirely ______ — neither driver had seen the other coming around the blind corner.",["accidental","nuclear","annual","ambitious"],0,null,"accidental（意外的）搭配「碰撞完全是意外、兩位駕駛都沒看到對方」，entirely accidental = 完全意外的。"],
+[15,"CTX","Her plans were ______: finish university, launch a business, and become a published author — all before thirty.",["nuclear","annual","ambitious","accidental"],2,null,"ambitious（有抱負的）搭配「完成大學、創業、出書、三十歲前完成」的高目標計畫語境。"],
+[16,"CTX","Always ______ your seatbelt before the car moves — it takes two seconds and could save your life.",["declare","campaign","fasten","identify"],2,null,"fasten（繫緊）搭配「上車前繫好安全帶」，fasten your seatbelt = 繫好安全帶，固定搭配。"],
+[17,"CTX","Three athletes were ______ during the competition and had to withdraw before the final round.",["declared","identified","injured","opposed"],2,null,"injure（傷害）搭配「比賽中受傷、退出決賽前」，be injured during = 在…中受傷，固定搭配。"],
+[18,"ROOT","\"Mis-\" in misunderstand and mislead both mean ______.",["wrongly / badly","not","again","before"],0,null,"mis- = 錯誤地、不好地。misunderstand = 理解錯誤；mislead = 引導到錯誤方向；mistake = 拿錯 → 犯錯。"],
+[19,"ROOT","The root \"camp\" in campaign originally referred to ______.",["a building","an open field or military ground","a meeting","a document"],1,null,"campaign 源自拉丁語 campus（開闊的平原）→ 軍事野戰 → 有組織的行動。campus（校園）也含同一字根。"],
+[20,"ROOT","\"Identify\" contains the root \"ident\" from Latin meaning ______.",["new","same / self","different","hidden"],1,null,"ident = 相同（拉丁語 idem = the same）。identify = 確認是同一個；identical = 完全相同的；identity = 自我同一性（身份）。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 4  B2 L5–L8 + Core Vocab L3 U10–U12
+// ─────────────────────────────────────────────────────────────────────
+w4:{week:4,dates:"7/21–7/27",srcA:"龍騰課本 B2 L4–L6",srcB:"核單 L4 U04",srcC:"核單 L4 U04 進階",
+A:[
+[1,"MC","Ambassador Lee's ______ manner of speaking made even the most sensitive topics easy to discuss.",["steady","collaborative","diplomatic","medical"],2,null,"diplomatic (adj.) 圓滑的；有外交手腕的。diplomat（外交官）→ diplomatic（圓滑的）。"],
+[2,"MC","The scientist's ______ approach to the problem led to a completely unexpected solution.",["creative","flawed","pioneering","innovative"],0,null,"creative (adj.) 有創意的。a creative approach = 有創意的做法。"],
+[3,"MC","The amateur runner ______ herself to complete the marathon despite the pain in her legs, refusing to drop out even at the twenty-mile mark.",["breathe","ignore","pushed","function"],2,null,"push oneself（逼自己）表示克服困難堅持完成。push oneself to do = 逼自己去做。encouraged oneself 不自然；allowed/prevented 意思相反。"],
+[4,"MC","The new technology has ______ the way doctors diagnose and treat rare diseases.",["require","transformed","emphasize","preserve"],1,null,"transform (vt.) 改變；轉化。transform the way... = 改變…的方式，固定搭配。"],
+[5,"MC","The anthropologist's ______ understanding of the local culture helped her build trust with the community quickly.",["concrete","satisfying","deep","systematic"],2,null,"deep understanding（深刻理解）搭配「快速建立信任」，顯示理解程度高。"],
+[6,"MC","The museum exhibit was designed to ______ visitors about the history of the ancient civilization.",["reflect","perform","educate","adjust"],2,null,"educate (vt.) 教育；啟發。educate visitors about = 讓參觀者了解…。"],
+[7,"MC","Despite repeated ______, the company refused to lower its prices during the holiday season.",["journey","sincerity","flight","demands"],3,null,"demands (n.) 要求（複數）。repeated demands = 一再要求。"],
+[8,"MC","The CEO ______ a strict morning routine that included meditation, exercise, and a healthy breakfast.",["eliminate","recall","assign","maintained"],3,null,"maintain (vt.) 維持。maintain a routine = 維持例行公事，固定搭配。"],
+[9,"MC","The ______ of the new research center is expected to create hundreds of jobs in the region.",["distance","opening","discovery","injury"],1,null,"opening (n.) 開幕；開張。the opening of = …的開幕。"],
+[10,"MC","His ______ decision to invest all his savings in a single stock turned out to be a costly mistake.",["pioneering","extraordinary","medical","reckless"],3,null,"reckless (adj.) 魯莽的；不顧後果的。a reckless decision = 魯莽的決定。"],
+[11,"MC","The volunteers worked tirelessly to ______ the flood victims with food and clean water.",["provide","assign","emphasize","avoid"],0,null,"provide sb. with sth.（提供某人某物）是固定搭配。provide victims with = 提供災民…。"],
+[12,"MC","Her ______ speech at the conference left every delegate with a lot to think about.",["capable","thought-provoking","scientific","amazing"],1,null,"thought-provoking (adj.) 發人深省的。thought + provoking（引發）→ 引發思考的。"],
+[13,"MC","The new law aims to ______ discrimination in the workplace by setting clear penalties.",["require","respond","assign","eliminate"],3,null,"eliminate (vt.) 消除。eliminate discrimination = 消除歧視，正式語境常見。"],
+[14,"MC","Despite her ______ schedule, she always found time to volunteer at the local library on weekends.",["hectic","sincere","keen","diplomatic"],0,null,"hectic (adj.) 忙碌的；繁忙的。a hectic schedule = 繁忙的行程。"],
+[15,"MC","The geologist ______ a detailed map of the cave system so future explorers would not get lost.",["remain","create","drew","inspire"],2,null,"draw a map（繪製地圖）是固定搭配。drew = draw 的過去式。"],
+[16,"MC","The coach told her players to stay ______ and not to panic when the other team scored first.",["balanced","remarkable","sincere","composed"],3,null,"composed (adj.) 沉著的；冷靜的。stay composed = 保持冷靜，固定搭配。"],
+[17,"MC","The report ______ a significant increase in the number of people using public transportation.",["accomplish","indicated","expose","condense"],1,null,"indicate (vt.) 顯示；指出。the report indicated that... = 報告顯示…。"],
+[18,"MC","The trade representative managed to ______ a deal that gave both parties exactly what they were looking for.",["conquer","negotiate","survive","identify"],1,null,"negotiate (vt.) 談判；協商。negotiate a deal = 談成一筆交易，固定搭配。"],
+[19,"MC","The rising ______ of living in the city has forced many young families to move to the suburbs.",["cost","majority","frustration","sincerity"],0,null,"cost of living（生活成本）是固定搭配。the rising cost of living = 不斷上升的生活成本。"],
+[20,"MC","Without ______ leadership to give clear direction and make firm decisions, the team drifted and could not agree on even the simplest tasks.",["strong","cautious","scientific","collaborative"],0,null,"strong leadership（強而有力的領導）鎖定「clear direction + firm decisions」；weak/silent 本身就是問題，不是缺乏的東西；traditional 與方向無關。"]
+],
+B:[
+
+[1,"FILL","The research team spent three months collecting and a_______g data before presenting their conclusions to the committee.","analyzing",null,"a_______g|examining in detail to understand; breaking something down to find patterns","📖 研究團隊花了三個月收集和分析數據，然後才向委員會提出結論。\nanalyze (vt.) 分析。analyzing data = 分析數據，固定搭配。"],
+[2,"FILL","Access to clean water is v_____l — without it, entire communities can face illness, conflict, and economic collapse.","vital",null,"v_____l|absolutely necessary; critically important; essential for survival or success","📖 獲得清潔水是至關重要的——沒有它，整個社區可能面臨疾病、衝突和經濟崩潰。\nvital (a.) 維持生命必需的；極重要的。vital for = 對…至關重要，固定搭配。"],
+[3,"FILL","The family gathered at the graveside, their faces s_______l as they said their final farewell to beloved Grandmother Chen.","sorrowful",null,"s_______l|showing or feeling deep sadness; full of grief; opposite of joyful","📖 家人聚集在墓旁，臉上充滿悲傷，向深愛的祖母作最後的道別。\nsorrowful (a.) 悲傷的。a sorrowful expression = 悲傷的表情。"],
+[4,"FILL","The scholarship applicant i_______d to submit her application before the deadline, but an unexpected power outage prevented her from finishing.","intended",null,"i_______d|planned or meant to do something; had a goal or purpose in mind","📖 她打算在截止日期前提交申請，但一次意外停電阻止了她完成。\nintend (vt.) 意欲，想要；意指。intended to + V = 打算做…（過去式）。"],
+[5,"FILL","The novelist's o_________e was clear: complete the first draft by Friday, review it over the weekend, and submit on Monday.","objective",null,"o_________e|a specific goal or aim; a clear target one works toward","📖 她的目標很明確：週五前完成初稿，週末審閱，週一提交。\nobjective (n.) 目標。a clear objective = 明確的目標。"],
+[6,"FILL","The startup struggled to secure f_______e in its early stages, but eventually attracted investors with its innovative product.","finance",null,"f_______e|money used to fund a project or business; the management of large sums of money","📖 這家新創公司在早期階段難以獲得資金，但最終以其創新產品吸引了投資者。\nfinance (n.) 財政，財務；向……提供資金。secure finance = 獲得資金，固定搭配。"],
+[7,"FILL","Maya's younger brother a_________d her to every job interview, waiting outside to offer encouragement when she came out.","accompanied",null,"a_________d|went along with someone; was present with someone as a companion","📖 她的弟弟陪她參加每一次工作面試，在外面等候，當她出來時給予鼓勵。\naccompany (vt.) 陪伴。accompanied sb. to = 陪某人去…（過去式）。"],
+[8,"FILL","The editor left a c_______t in the margin asking the author to clarify the meaning of the third paragraph.","comment",null,"c_______t|a remark or note explaining or judging something; written or spoken feedback","📖 編輯在頁邊留了評語，請作者澄清第三段的意思。\ncomment (n.) 評論，評語。leave a comment = 留下評語，固定搭配。"],
+[9,"FILL","The i___________n into the school fire took two months and ultimately revealed that faulty wiring was to blame.","investigation",null,"i___________n|an official examination of facts to find the truth; a formal inquiry","📖 對學校火災的調查持續了兩個月，最終揭露是電線故障所致。\ninvestigation (n.) 調查。launch an investigation = 發起調查，固定搭配。"],
+[10,"FILL","Despite a series of r_________s from publishers, she continued writing and eventually landed a contract with a major house.","rejections",null,"r_________s|instances of being turned down or refused; unsuccessful attempts to be accepted","📖 儘管屢遭出版社拒絕，她繼續寫作，最終與一家大出版社簽訂了合約。\nrejection (n.) 拒絕，推辭（複數）。a series of rejections = 一連串的拒絕。"],
+[11,"FILL","The m_______r of education announced a new policy to reduce class sizes in primary schools across the country.","minister",null,"m_______r|a senior government official in charge of a specific area of policy","📖 教育部長宣布了一項新政策，以縮小全國小學的班級規模。\nminister (n.) 部長；牧師。minister of education = 教育部長，固定搭配。"],
+[12,"FILL","Doctors said that early detection was v_____l — patients diagnosed in the first stage had a ninety percent survival rate.","vital",null,"v_____l|critically important; the difference between a good and bad outcome","📖 醫生說早期發現至關重要——在第一階段診斷出的患者存活率高達九十個百分比。\nvital (a.) 極重要的。early detection is vital = 早期發現至關重要。"],
+[13,"FILL","The reader left a brief c_______t beneath the article praising the journalist's thorough research and clear writing style.","comment",null,"c_______t|a short opinion or note posted in response to something online or in writing","📖 她在文章下方留了簡短評語，稱讚記者的深入研究和清晰的寫作風格。\ncomment (n.) 評論，評語。leave a comment = 留下評語。"],
+[14,"FILL","The i___________n revealed that three employees had been falsifying expense reports for over a year without being caught.","investigation",null,"i___________n|a careful study or inquiry to find hidden facts; a formal probe into wrongdoing","📖 調查揭露三名員工一年多來一直在偽造費用報告而未被發現。\ninvestigation (n.) 調查。the investigation revealed = 調查揭露了…。"],
+[15,"FILL","Mrs. Lin a_________d her daughter to her first day of university, helping her move into the dormitory before saying goodbye.","accompanied",null,"a_________d|went with someone to give support or company on an important occasion","📖 她陪同女兒度過大學第一天，幫她搬進宿舍後才道別。\naccompany (vt.) 陪伴。accompanied her daughter to = 陪女兒去…。"],
+[16,"FILL","The prime m_______r held a press conference to address rising public concern about the country's economic slowdown.","minister",null,"m_______r|a senior government leader; often the head of government in parliamentary systems","📖 總理召開新聞發布會，回應公眾對國家經濟放緩日益增長的關注。\nminister (n.) 部長；牧師。prime minister = 總理，固定搭配。"],
+[17,"FILL","What Sara i_______d as a small joke was taken seriously by her colleague, leading to an awkward misunderstanding.","intended",null,"i_______d|meant; had in mind as a purpose or goal; planned as an effect","📖 她本意只是一個小玩笑，卻被同事認真對待，造成了一個尷尬的誤解。\nintend (vt.) 意欲，想要；意指。intended as = 本意是作為…（過去式）。"],
+[18,"FILL","The external auditor was brought in to a_______e the company's spending habits and identify any areas of financial waste.","analyze",null,"a_______e|to examine carefully and in detail; to study something to understand it better","📖 審計員被引進來分析公司的支出習慣，並找出任何財務浪費的領域。\nanalyze (vt.) 分析。analyze spending habits = 分析支出習慣。"],
+[19,"FILL","The job applicant's rejection was hard to accept at first, but she later realized it had pushed her toward a better o_________e.","objective",null,"o_________e|a goal or target; what one sets out to achieve through effort","📖 她的被拒起初很難接受，但她後來意識到這推動她走向了更好的目標。\nobjective (n.) 目標。a better objective = 更好的目標。"],
+[20,"FILL","The trade representative approached the negotiation with one clear o_________e: to secure a fair deal that both parties could accept without r_________n.","objective / rejection",null,"o_________e / r_________n|a goal to achieve; a refusal to accept — both key to understanding negotiation outcomes","📖 他以一個明確的目標進行談判：達成雙方都能接受而不遭拒絕的公平協議。\nobjective (n.) 目標；rejection (n.) 拒絕。兩者皆為本週核單。"]
+],
+C:[
+
+[1,"CTX","The scientist spent years ______ samples from the deep ocean to understand how pressure affects marine life.",["accompanying","financing","opposing","analyzing"],3,null,"analyze（分析）搭配「科學家分析深海樣本以了解壓力影響」，analyzing samples = 分析樣本，固定搭配。"],
+[2,"CTX","Fresh water is ______ to human survival — without it, no civilization can exist for more than a few days.",["essential","vital","sorrowful","vast"],1,null,"vital（維持生命必需的）搭配「對人類生存至關重要、沒有就無法存活」，vital to = 對…至關重要，固定搭配。"],
+[3,"CTX","Mrs. Chen wore a ______ expression as she placed flowers on her grandmother's grave on the anniversary of her passing.",["essential","sorrowful","vital","vast"],1,null,"sorrowful（悲傷的）搭配「在祭日為祖母墓前獻花」的哀悼語境，a sorrowful expression = 悲傷的表情。"],
+[4,"CTX","The analyst ______ to finish the report by Thursday, but an unexpected system failure pushed the deadline back two days.",["intended","analyzed","accompanied","financed"],0,null,"intend（打算）搭配「原本打算週四完成但系統故障延期」，intended to + V = 打算做…（過去式）。"],
+[5,"CTX","The team's ______ was to reduce customer complaint rates by thirty percent within the next six months.",["philosophy","exception","objective","impact"],2,null,"objective（目標）搭配「降低客訴率三成的明確目標」，the team's objective was to = 團隊的目標是…，固定搭配。"],
+[6,"CTX","The startup received government ______ to develop a new type of battery that could store solar energy more efficiently.",["finance","devote","analyze","accomplish"],0,null,"finance（資金；財務支持）搭配「新創公司獲政府資金開發新型電池」，receive finance = 獲得資金。"],
+[7,"CTX","Nurse Chen ______ the elderly patient to every appointment, making sure Mrs. Wang never had to navigate the hospital alone.",["analyzed","intended","assigned","accompanied"],3,null,"accompany（陪伴）搭配「護士陪患者就診、確保她不用獨自在醫院導航」，accompany sb. to = 陪某人去…。"],
+[8,"CTX","The editor left a ______ in the margin suggesting that the third paragraph needed a stronger concluding sentence.",["devote","comment","analyze","accomplish"],1,null,"comment（評語）搭配「編輯在頁邊留評語建議加強結尾句」，leave a comment = 留下評語，固定搭配。"],
+[9,"CTX","The ______ into the data breach took four months and revealed that an employee had shared passwords with outsiders.",["investigation","objective","philosophy","exception"],0,null,"investigation（調查）搭配「資料洩漏調查花四個月、揭露員工分享密碼」，investigation into = 對…的調查。"],
+[10,"CTX","After three ______s from publishers, she self-published her novel and it became an unexpected bestseller.",["rejections","comments","objectives","investigations"],0,null,"rejection（拒絕）複數搭配「三次被出版社拒絕後自費出版」，a series of rejections = 一連串的拒絕。"],
+[11,"CTX","The ______ of education announced that all primary schools would adopt a new digital literacy curriculum next year.",["objective","philosophy","minister","exception"],2,null,"minister（部長）搭配「教育部長宣布推行數位素養課程」，minister of education = 教育部長，固定搭配。"],
+[12,"CTX","The retired teacher ______ a lifelong goal of running a marathon when she crossed the finish line at the age of sixty-two.",["accomplished","devote","analyze","accomplish"],0,null,"accomplish（完成；達到）搭配「六十二歲完成馬拉松的畢生目標」，accomplish a goal = 達成目標，固定搭配。"],
+[13,"CTX","The teacher ______ each student a different country to research for the global issues presentation.",["assigned","devote","analyze","accomplish"],0,null,"assign（指派；分配）搭配「老師指派每位學生不同國家做研究」，assign sb. a task = 指派某人任務，固定搭配。"],
+[14,"CTX","She showed great ______ as a young pianist — by age twelve, she was performing at national competitions.",["objective","potential","philosophy","exception"],1,null,"potential（潛力）搭配「小小年紀展現巨大潛力、十二歲參加全國比賽」，show potential = 展現潛力，固定搭配。"],
+[15,"CTX","The doctor ______ her patient to exercise for at least thirty minutes a day to help manage her blood pressure.",["analyzed","rejected","urged","financed"],2,null,"urge（力勸）搭配「醫生力勸患者每天運動三十分鐘管理血壓」，urge sb. to do = 力勸某人做…，固定搭配。"],
+[16,"CTX","In ______ to the noisy city outside, the library offered a calm and focused space for deep thinking.",["devote","contrast","analyze","accomplish"],1,null,"contrast（對比）搭配「與城市喧囂相對比，圖書館提供平靜空間」，in contrast to = 與…相對比，固定搭配。"],
+[17,"ROOT","The root \"invest\" in investigation comes from Latin, originally meaning to ______.",["speak","carry","clothe / examine closely","build"],2,null,"invest = 穿上（拉丁語 investire）→ 仔細包圍檢視 → 調查。investigation = 仔細審查。invest（投資）= 把錢包裹進去。"],
+[18,"ROOT","\"Finance\" comes from Latin \"finis\" meaning end or settlement. Which meaning best connects to the modern word?",["studying the future","building structures","settling a debt; managing money","speaking publicly"],2,null,"finis（結束）→ 結清債務 → finance（財務；資金管理）。final、finish 也含同一字根，表「終點、結清」。"],
+[19,"ROOT","\"Objective\" contains the prefix \"ob-\" meaning toward or against, and \"ject\" meaning to throw. Together they suggest ______.",["something thrown away","something hidden","something placed in front of you as a target","something spoken"],2,null,"ob-（朝向）+ ject（投擲）= 被投放在前方的東西 → 目標；客觀的（不被情緒左右）。reject = 向後投擲（拒絕）。"],
+[20,"ROOT","\"Accompany\" contains the root \"com-\" (together) and \"pan\" (bread). The original idea was ______.",["working together","sharing bread; being together","speaking the same language","traveling the same road"],1,null,"com-（共同）+ panis（麵包）= 一起分享麵包的人 → 同伴。accompany = 陪伴；companion = 同伴；company = 同伴 → 公司。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 5  B3 L1–L4 + Core Vocab L4 U01–U03
+// ─────────────────────────────────────────────────────────────────────
+w5:{week:5,dates:"7/28–8/3",srcA:"龍騰課本 B2 L7–L9",srcB:"核單 L4 U05",srcC:"核單 L4 U05 進階",
+A:[
+[1,"MC","The environmental group launched a campaign to ______ the use of single-use plastics.",["predict","simplify","ban","assign"],2,null,"ban (vt.) 禁止。ban the use of = 禁止使用…，固定搭配。"],
+[2,"MC","Her ______ approach to negotiations helped both sides reach a fair agreement.",["focused","unique","balanced","diplomatic"],2,null,"balanced (adj.) 平衡的；公正的。a balanced approach = 均衡的做法。"],
+[3,"MC","The new safety regulations were ______ immediately after the accident to prevent future incidents.",["introduce","perform","implemented","transform"],2,null,"implement (vt.) 實施；執行。implemented immediately = 立即實施，被動語態。"],
+[4,"MC","The junior employee ______ the courage to speak up about the unfair treatment she had witnessed.",["highlight","gathered","portray","restore"],1,null,"gather courage（鼓起勇氣）是固定搭配。gather = 聚集 → 聚集勇氣。"],
+[5,"MC","The charity's mission is to ______ poverty in rural areas by providing education and job training.",["alleviate","blame","survive","affect"],0,null,"alleviate (vt.) 緩和；減輕。alleviate poverty = 減輕貧困，正式語境常見。"],
+[6,"MC","His ______ use of color in his paintings made his work instantly recognizable worldwide.",["sensitive","diplomatic","distinctive","extraordinary"],2,null,"distinctive (adj.) 獨特的；有辨識度的。distinctive use of = 獨特的運用方式。"],
+[7,"MC","She ______ a complex data set by creating a simple chart that highlighted the key findings.",["simplified","refresh","solve","eliminate"],0,null,"simplify (vt.) 簡化。simplified = 過去式/被動，表示將複雜的東西簡化。"],
+[8,"MC","The company decided to ______ its production line after the new model proved unpopular with consumers.",["restructure","assign","refresh","condense"],0,null,"restructure (vt.) 重組；重新規劃。restructure a production line = 重組生產線。"],
+[9,"MC","The lawyer's ______ commitment to social justice inspired a generation of young activists.",["romantic","stubborn","diplomatic","unwavering"],3,null,"unwavering (adj.) 堅定不移的。un-（否定）+ waver（動搖）→ 不動搖的。"],
+[10,"MC","The documentary ______ the serious consequences of ignoring climate change for future generations.",["highlighted","preserve","inspire","avoid"],0,null,"highlight (vt.) 強調；突顯。highlight the consequences = 強調後果。"],
+[11,"MC","The account manager felt completely ______ by the sheer volume of work that had piled up during her vacation.",["stubborn","overwhelmed","long-term","steady"],1,null,"overwhelmed (adj.) 不堪負荷的；被壓倒的。overwhelmed by = 被…壓垮。"],
+[12,"MC","The company's ______ to transparency earned it the trust of both investors and customers.",["flavor","recipe","commitment","region"],2,null,"commitment to transparency（對透明度的承諾）固定搭配。"],
+[13,"MC","Sara ______ her daily commute to listen to podcasts on business strategy and leadership.",["used","trace","wonder","breathe"],0,null,"use sth. to do（利用某事做某事）最符合語境。use her commute to listen = 利用通勤時間聆聽。"],
+[14,"MC","The new app ______ users to track their spending habits and plan their budgets more effectively.",["preserve","enables","negotiate","boost"],1,null,"enable sb. to do（使某人能夠做…）固定搭配。enables users to track = 使用戶能夠追蹤。"],
+[15,"MC","After years of ______, the team finally developed a vaccine that could protect against the virus.",["deny","preserve","boost","research"],3,null,"years of research（多年的研究）固定搭配，搭配「開發出疫苗」的結果。"],
+[16,"MC","The author's ability to ______ deeply with readers made her books beloved across generations.",["recall","ruin","manage","connect"],3,null,"connect with readers（與讀者產生共鳴/聯繫）固定搭配。"],
+[17,"MC","The painter's ______ dedication to her craft was evident in every brushstroke of her paintings.",["balanced","extraordinary","satisfying","diplomatic"],1,null,"extraordinary (adj.) 非凡的。extra-（超出）+ ordinary → 超越普通。"],
+[18,"MC","The teacher ______ the importance of critical thinking rather than just memorizing facts.",["adapt","realize","locate","emphasized"],3,null,"emphasize (vt.) 強調。emphasize the importance of = 強調…的重要性。"],
+[19,"MC","Without the ______ of all team members, the project would not have been completed on time.",["innovation","cooperation","direction","disease"],1,null,"cooperation (n.) 合作。the cooperation of all = 所有人的合作。"],
+[20,"MC","The new bridge was a ______ achievement that connected two communities that had been separated for decades.",["diplomatic","inclusive","touched","monumental"],3,null,"monumental (adj.) 劃時代的；重大的。a monumental achievement = 重大成就。"]
+],
+B:[
+
+[1,"FILL","Her i_______l reaction to the news was shock, but after a few minutes she felt a deep sense of relief wash over her.","initial",null,"i_______l|first; occurring at the beginning; opposite of final or later","📖 她對這個消息的最初反應是震驚，但幾分鐘後她感到一陣深深的如釋重負。\ninitial (a.) 初期的。initial reaction = 最初的反應，固定搭配。"],
+[2,"FILL","The engineer's e_______e of the project cost turned out to be far too low — the final bill was three times higher.","estimate",null,"e_______e|a rough calculation of value, size, or cost; an approximate figure","📖 工程師對專案費用的估計結果遠遠太低——最終帳單是三倍之高。\nestimate (vt. & n.) 估計。estimate of cost = 對費用的估計。"],
+[3,"FILL","The teacher asked for an e___________n of why the assignment had not been submitted — and the student had none.","explanation",null,"e___________n|a reason or justification given for something; a statement that makes something clear","📖 老師要求解釋為何作業沒有提交——而學生無言以對。\nexplanation (n.) 解釋，說明。ask for an explanation = 要求解釋，固定搭配。"],
+[4,"FILL","Failing to study has real c___________s — lower grades, missed opportunities, and the need to repeat the course.","consequences",null,"c___________s|results or effects of an action, especially negative ones; what follows from a choice","📖 不認真學習有真實的後果——成績下降、錯失機會，以及需要重修課程。\nconsequence (n.) 結果；重要性（複數）。real consequences = 真實的後果。"],
+[5,"FILL","Kate tried to c_______e her parents that studying abroad would benefit her career, but they were worried about the cost.","convince",null,"c_______e|to make someone believe something or agree to something through argument or evidence","📖 她試圖說服父母留學對她的職業生涯有益，但他們擔心費用問題。\nconvince (vt.) 使確信；說服。convince sb. that = 說服某人相信…，固定搭配。"],
+[6,"FILL","The diagram was used to i_______e how blood flows through the heart, making a complex process easy to understand.","illustrate",null,"i_______e|to make something clear by using examples, diagrams, or pictures","📖 這張圖表用來說明血液如何在心臟中流動，使一個複雜的過程易於理解。\nillustrate (vt.) 為……畫插圖；說明。illustrate how = 說明如何…，固定搭配。"],
+[7,"FILL","The goal of the new health policy is to e_______e preventable diseases by improving vaccination coverage nationwide.","eliminate",null,"e_______e|to completely remove or get rid of; to eradicate; to put an end to","📖 新衛生政策的目標是透過提高全國疫苗接種覆蓋率來消除可預防的疾病。\neliminate (vt.) 殲滅；剔除，淘汰。eliminate diseases = 消除疾病，固定搭配。"],
+[8,"FILL","The coach had a f_______a for success: train hard every day, rest well every night, and never skip the warm-up.","formula",null,"f_______a|a set method or plan that reliably produces a result; a rule or recipe for success","📖 教練有一個成功的公式：每天努力訓練，每晚充分休息，從不跳過熱身。\nformula (n.) 配方；公式。a formula for success = 成功的公式，固定搭配。"],
+[9,"FILL","The lifeguard i_______d swimmers to stay within the marked zone and to avoid the deeper water beyond the flags.","instructed",null,"i_______d|told officially; gave clear directions or orders; taught someone what to do","📖 救生員指示游泳者留在標示區域內，避免進入旗子以外較深的水域。\ninstruct (vt.) 教授，指導；指示，告知。instructed sb. to = 指示某人去做…（過去式）。"],
+[10,"FILL","The experiment d_____________d that plants exposed to classical music grew faster than those kept in complete silence.","demonstrated",null,"d_____________d|showed clearly through evidence or experiment; proved by example","📖 這個實驗證明，接觸古典音樂的植物比在完全安靜環境中生長的植物長得更快。\ndemonstrate (vt.) 示範；示威。demonstrated that = 證明了…（過去式）。"],
+[11,"FILL","The hotel room was a_______e for one person but far too small for a family of four with luggage.","adequate",null,"a_______e|enough for what is needed; satisfactory though perhaps not excellent","📖 這個飯店房間對一個人來說足夠，但對帶著行李的四口之家來說太小了。\nadequate (a.) 充分的；適當的。adequate for = 對…足夠，固定搭配。"],
+[12,"FILL","There was a s_____t improvement in her handwriting after just two weeks of daily practice.","slight",null,"s_____t|small in degree; not very large or significant; barely noticeable","📖 每天練習僅僅兩週後，她的書寫就有了輕微的改善。\nslight (a.) 輕微的；輕視。a slight improvement = 輕微的改善，固定搭配。"],
+[13,"FILL","Each c_________e for the scholarship had to submit a personal statement, two letters of recommendation, and a portfolio.","candidate",null,"c_________e|a person applying for a position or award; someone being considered for selection","📖 每位獎學金申請人都必須提交個人陳述、兩封推薦信和一份作品集。\ncandidate (n.) 候選人。scholarship candidate = 獎學金申請人。"],
+[14,"FILL","The friendship they built during that difficult semester created a b___d that lasted long after graduation.","bond",null,"b___d|a strong connection between people; a feeling of closeness or shared experience","📖 他們在那個艱難的學期中建立的友誼創造了一種在畢業後很久仍持續的紐帶。\nbond (n.) 關係；債券。create a bond = 建立紐帶，固定搭配。"],
+[15,"FILL","It was not a_________e to use informal language in the business proposal — the tone needed to be professional throughout.","appropriate",null,"a_________e|suitable for a particular situation; fitting; the right choice for the context","📖 在商業提案中使用非正式語言是不恰當的——整個語氣需要保持專業。\nappropriate (a.) 適當的，合適的。appropriate for = 適合…，固定搭配。"],
+[16,"FILL","The digital r_________n changed how people communicate, work, and access information in ways that few had imagined possible.","revolution",null,"r_________n|a dramatic and wide-reaching change in something; a fundamental transformation","📖 數位革命改變了人們溝通、工作和獲取資訊的方式，超出了許多人的想像。\nrevolution (n.) 革命；（星球）運行，公轉。the digital revolution = 數位革命，固定搭配。"],
+[17,"FILL","The speech placed great e_______s on the need for teamwork — the word \"together\" appeared more than twenty times.","emphasis",null,"e_______s|special importance given to something; stress placed on a particular point","📖 這篇演講非常強調團隊合作的必要性——「together」這個詞出現了二十多次。\nemphasis (n.) 強調，重視。place emphasis on = 強調…，固定搭配。"],
+[18,"FILL","The restaurant-goer made a r___________n a week in advance to ensure they would have a table on Valentine's Day.","reservation",null,"r___________n|a booking made in advance; an arrangement to have something kept for you","📖 她提前一週在餐廳預訂，以確保情人節那天有桌位。\nreservation (n.) 預訂；保留（意見）。make a reservation = 預訂，固定搭配。"],
+[19,"FILL","The climbers finally managed to s_____e a permit to ascend the world's highest peak after three years of applications.","secure",null,"s_____e|to obtain something after effort; to get something firmly in place; to make safe","📖 登山者在申請三年後，終於設法取得了攀登世界最高峰的許可證。\nsecure (vt.) 獲得；弄牢；安全的。secure a permit = 取得許可證，固定搭配。"],
+[20,"FILL","D_____e the heavy rain, hundreds of supporters turned out to cheer for the team at the outdoor stadium.","Despite",null,"D_____e|in spite of; not prevented by; used to introduce a contrast","📖 儘管大雨，數百名支持者還是出現在露天體育場為球隊加油。\ndespite (prep.) 儘管。despite the rain = 儘管下雨，固定搭配。"]
+],
+C:[
+
+[1,"CTX","The new volunteer's ______ reaction was confusion, but after reading the instructions twice, everything became clear.",["eventual","leisurely","initial","adequate"],2,null,"initial（初期的）搭配「最初感到困惑、讀了兩遍後才明白」，initial reaction = 最初的反應，固定搭配。"],
+[2,"CTX","The builder gave a rough ______ of the renovation cost but warned that the final bill might be higher.",["occupy","expand","estimate","convince"],2,null,"estimate（估計）搭配「給出粗略估計但警告最終帳單可能更高」，give an estimate = 提供估計，固定搭配。"],
+[3,"CTX","The teacher gave a clear ______ of why the answer was wrong, helping students understand the concept better.",["consequence","explanation","surroundings","formula"],1,null,"explanation（解釋）搭配「老師清楚解釋答案為何錯誤」，give an explanation = 提供解釋，固定搭配。"],
+[4,"CTX","Failing to wear sunscreen has real ______s — premature aging, sunburn, and an increased risk of skin cancer.",["estimates","explanations","candidates","consequences"],3,null,"consequence（後果）複數搭配「不塗防曬的真實後果」，real consequences = 真實的後果，固定搭配。"],
+[5,"CTX","Kate tried to ______ her parents that gap year travel would make her more mature and career-ready.",["occupy","estimate","expand","convince"],3,null,"convince（說服）搭配「說服父母間隔年旅行讓她更成熟」，convince sb. that = 說服某人相信…，固定搭配。"],
+[6,"CTX","The teacher used a diagram to ______ how the human digestive system breaks down food step by step.",["illustrate","occupy","estimate","expand"],0,null,"illustrate（說明）搭配「用圖表說明消化系統如何分解食物」，illustrate how = 說明如何…，固定搭配。"],
+[7,"CTX","The new filtering system will ______ nearly all impurities, producing water that is safe to drink.",["occupy","estimate","expand","eliminate"],3,null,"eliminate（剔除；消除）搭配「過濾系統消除幾乎所有雜質」，eliminate impurities = 消除雜質，固定搭配。"],
+[8,"CTX","The language teacher developed her own ______ for memorizing vocabulary: read, write, cover, and test — repeated three times.",["explanation","consequence","surroundings","formula"],3,null,"formula（公式；方法）搭配「她自創的背單字公式」，a formula for = …的公式/方法，固定搭配。"],
+[9,"CTX","Coach Wang ______ players to always warm up for at least ten minutes before any training session begins.",["eliminated","instructed","secured","convinced"],1,null,"instruct（指示；教導）搭配「教練指示球員每次訓練前熱身十分鐘」，instruct sb. to = 指示某人去做…。"],
+[10,"CTX","The experiment ______ that plants in the lit room grew twice as fast as those kept in darkness.",["occupy","demonstrated","estimate","expand"],1,null,"demonstrate（證明）搭配「實驗證明有光的植物長得兩倍快」，demonstrated that = 證明了…，固定搭配。"],
+[11,"CTX","The study space was small but ______ — enough room for a desk, a lamp, and all her textbooks.",["initial","eventual","leisurely","adequate"],3,null,"adequate（足夠的；適當的）搭配「空間小但足夠、有書桌、燈、課本」，adequate for = 對…足夠，固定搭配。"],
+[12,"CTX","There was a ______ difference in temperature between the two rooms — barely noticeable without a thermometer.",["slight","initial","eventual","leisurely"],0,null,"slight（輕微的）搭配「幾乎察覺不出的溫差」，a slight difference = 輕微的差異，固定搭配。"],
+[13,"CTX","Each ______ for the position had to complete a written test, a group interview, and a presentation.",["explanation","consequence","candidate","surroundings"],2,null,"candidate（候選人；申請人）搭配「每位應徵者需完成筆試、團體面試和報告」，each candidate = 每位候選人。"],
+[14,"CTX","Their shared experience of overcoming hardship created a deep ______ that lasted well beyond their school years.",["bond","explanation","consequence","surroundings"],0,null,"bond（關係；紐帶）搭配「共同克服困難創造了深厚紐帶」，create a bond = 建立紐帶，固定搭配。"],
+[15,"CTX","Using slang in a formal essay is not ______ — the tone should match the academic context throughout.",["initial","appropriate","eventual","leisurely"],1,null,"appropriate（適當的）搭配「正式文章中使用俚語不合適」，not appropriate = 不適當，固定搭配。"],
+[16,"CTX","The industrial ______ changed how goods were made, moving production from homes to factories at massive scale.",["revolution","explanation","consequence","surroundings"],0,null,"revolution（革命；重大變革）搭配「工業革命改變生產方式、從家庭到工廠」，industrial revolution = 工業革命，固定搭配。"],
+[17,"CTX","The professor placed great ______ on the need to cite sources properly in every academic paper submitted.",["explanation","emphasis","consequence","surroundings"],1,null,"emphasis（強調；重視）搭配「教授非常強調正確引用來源」，place emphasis on = 強調…，固定搭配。"],
+[18,"CTX","The conference attendee made a ______ at the hotel three weeks in advance to ensure she had a room during the busy conference period.",["explanation","reservation","consequence","surroundings"],1,null,"reservation（預訂）搭配「提前三週預訂飯店確保有房間」，make a reservation = 預訂，固定搭配。"],
+[19,"CTX","______ heavy criticism, Director Lin refused to change the ending of her film and stood by her artistic vision.",["Despite","Moreover","Nevertheless","Otherwise"],0,null,"despite（儘管）搭配「儘管遭受強烈批評，導演仍拒絕修改結局」，despite + N = 儘管…，固定搭配。"],
+[20,"ROOT","\"Eliminate\" contains the root \"limin\" from Latin meaning threshold or boundary. The original idea was ______.",["to build a new boundary","to cross a boundary slowly","to mark a boundary clearly","to push something out beyond the boundary"],3,null,"limen（門檻）→ eliminate = e-（出）+ limin（門檻）→ 把某物推出門檻之外 → 消除。subliminal = 在門檻之下（潛意識的）。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 6  B3 L5–L8 + Core Vocab L4 U04–U06
+// ─────────────────────────────────────────────────────────────────────
+w6:{week:6,dates:"8/4–8/10",srcA:"龍騰課本 B1+B2 錯誤本整理",srcB:"核單 L4 U06",srcC:"核單 L4 U06 進階",
+A:[
+[1,"MC","The journalist ______ her report with interviews from residents directly affected by the flood.",["accomplish","supported","expand","boost"],1,null,"support (vt.) 支持；佐證。supported her report with = 以…支持/佐證她的報導，固定搭配。"],
+[2,"MC","Her ______ nature made her the perfect candidate for the role of team mediator.",["calm","unwavering","distinctive","stubborn"],0,null,"calm (adj.) 冷靜的。a calm nature = 冷靜的天性，符合調解人的特質。"],
+[3,"MC","The film ______ at the themes of identity and belonging in a way that resonated with a global audience.",["looked","realize","survive","expose"],0,null,"look at（探討；審視）是固定搭配。The film looked at themes = 這部電影探討了主題。"],
+[4,"MC","The pre-med student ______ the lecture carefully and wrote down everything she thought would be useful for the exam.",["preserve","enable","followed","survive"],2,null,"follow a lecture（專心聆聽講課）是固定搭配。follow carefully = 仔細跟上講課內容。"],
+[5,"MC","The company's ______ strategy focused on building long-term relationships rather than quick profits.",["flawed","long-term","unwavering","embarrassed"],1,null,"long-term strategy（長期策略）固定搭配，與「建立長期關係」語境一致。"],
+[6,"MC","The event coordinator worked ______ for months to ensure that every aspect of the wedding would run smoothly.",["accurately","reluctantly","tirelessly","especially"],2,null,"tirelessly (adv.) 不知疲倦地。work tirelessly = 不知疲倦地工作，固定搭配。"],
+[7,"MC","The government ______ millions of dollars to support research into renewable energy sources.",["introduce","allocated","restore","affect"],1,null,"allocate (vt.) 分配；撥出。allocate funds = 撥出資金，正式語境。"],
+[8,"MC","The company ______ a new set of guidelines to prevent similar mistakes from happening in the future.",["assign","explain","introduced","wonder"],2,null,"introduce guidelines（推出指導方針）固定搭配。"],
+[9,"MC","His ______ attitude toward risk helped the company survive the economic downturn.",["cautious","depressed","empathetic","constructive"],0,null,"cautious (adj.) 謹慎的。a cautious attitude toward risk = 對風險謹慎的態度。"],
+[10,"MC","The new app ______ users to share their travel photos with a global community instantly.",["affect","adjust","allows","allocate"],2,null,"allow sb. to do（允許某人做…）固定搭配。allows users to share = 讓使用者能夠分享。"],
+[11,"MC","Despite the ______ of her speech, the audience gave her a standing ovation at the end.",["simplicity","journey","relationship","dedication"],0,null,"simplicity (n.) 簡潔；簡單。despite the simplicity = 儘管簡潔（意指雖然不複雜，仍獲得起立鼓掌）。"],
+[12,"MC","The new law was ______ after a lengthy debate in parliament.",["passed","confess","condense","preserve"],0,null,"pass a law（通過法律）固定搭配。was passed = 被通過（被動語態）。"],
+[13,"MC","Grandma Lin spent the entire afternoon ______ through boxes of old family photos and letters in the attic, putting them in order by year.",["inspire","sorting","accomplish","detect"],1,null,"sort through（整理；翻看）是固定搭配。'putting them in order by year' 鎖定 sorting；reading/writing/mailing 均不符合整理照片的動作。"],
+[14,"MC","The documentary shed ______ on the daily challenges faced by people with invisible disabilities.",["cost","direction","pride","light"],3,null,"shed light on（闡明；揭示）是固定片語。shed light on daily challenges = 揭示日常挑戰。"],
+[15,"MC","Without ______ evidence, the court could not reach a verdict in the complicated case.",["constructive","calm","medical","concrete"],3,null,"concrete evidence（具體的證據）固定搭配。concrete = 有實質的、具體的。"],
+[16,"MC","The first-year engineer was ______ by the complexity of the problem and asked her mentor for guidance.",["constructive","calm","deliberate","daunted"],3,null,"daunted (adj.) 畏縮的；被嚇到的。be daunted by = 被…嚇到，固定搭配。"],
+[17,"MC","The museum's new exhibition ______ the evolution of communication technology over the past century.",["connect","explore","affect","traced"],3,null,"trace (vt.) 追溯；描繪發展過程。trace the evolution of = 追溯…的演變。"],
+[18,"MC","The TED speaker managed to ______ her presentation to just fifteen minutes without losing any key information.",["predict","create","condense","remind"],2,null,"condense (vt.) 濃縮；壓縮。condense a presentation = 濃縮演講時間。"],
+[19,"MC","The ______ of the two companies created the largest tech firm in the country.",["invitation","discovery","cooperation","merger"],3,null,"merger (n.) 合併。the merger of two companies = 兩家公司的合併。"],
+[20,"MC","The journalist always made sure to ______ his work before sending it, catching several small but important errors.",["fade","review","predict","blame"],1,null,"review one's work（審查自己的工作）固定搭配。review = 重新檢視。"]
+],
+B:[
+
+[1,"FILL","The c_________n for the top prize was fierce — over five hundred entries were submitted from thirty different countries.","competition",null,"c_________n|a contest or rivalry where people try to win or be better than others","📖 這個最高獎項的競爭非常激烈——來自三十個不同國家提交了五百多份參賽作品。\ncompetition (n.) 競爭（不可數）；比賽（可數）。fierce competition = 激烈競爭，固定搭配。"],
+[2,"FILL","Volunteers helped d_________e food packages to families who had been displaced by the flooding in the southern region.","distribute",null,"d_________e|to give out or spread something among a group of people; to deliver to many","📖 志工幫助向南部地區因洪水而流離失所的家庭分發食品包裹。\ndistribute (vt.) 分發，分配。distribute food packages = 分發食品包裹，固定搭配。"],
+[3,"FILL","The reviewer c_________d the film for its weak plot, saying the story lacked depth and the characters felt unconvincing.","criticized",null,"c_________d|found fault with; pointed out flaws in; expressed disapproval of","📖 評論者批評這部電影情節薄弱，說故事缺乏深度，人物感覺不夠可信。\ncriticize (vt.) 批評。criticized the film for = 因…批評這部電影（過去式）。"],
+[4,"FILL","The project's failure was l_______y due to poor planning — the technical problems were minor compared to the management issues.","largely",null,"l_______y|mostly; to a great extent; mainly responsible for something","📖 這個專案的失敗主要是由於計畫不善——技術問題與管理問題相比是次要的。\nlargely (adv.) 大大地；大部分。largely due to = 主要由於…，固定搭配。"],
+[5,"FILL","The shop owner c_______d to delivering the best possible service and never left a customer waiting for more than two minutes.","committed",null,"c_______d|fully dedicated to something; having pledged to give one's effort","📖 她致力於提供最好的服務，從不讓顧客等待超過兩分鐘。\ncommit (vt.) 犯（罪）；奉獻。committed to + N/V-ing = 致力於…（過去式）。"],
+[6,"FILL","After forty years of teaching, Professor Lin finally decided to r_____e and spend more time with her grandchildren.","retire",null,"r_____e|to stop working permanently, usually because of age; to leave one's career","📖 在執教四十年後，林教授終於決定退休，花更多時間陪伴孫子孫女。\nretire (vi.) 退休；就寢，休息。retire after = 在…後退休，固定搭配。"],
+[7,"FILL","The new office was f_______d with ergonomic chairs, standing desks, and a fully equipped kitchen for staff use.","furnished",null,"f_______d|equipped with furniture and necessary items; fitted out for use","📖 新辦公室配備了符合人體工學的椅子、站立式辦公桌和供員工使用的完整廚房。\nfurnish (vt.) 配備傢俱；提供。furnished with = 配備了…（過去式被動）。"],
+[8,"FILL","The design team waited anxiously for the director's a_______l before they could proceed to the production stage.","approval",null,"a_______l|agreement or permission given by someone in authority; a positive decision","📖 設計團隊焦急地等待主任的批准，才能進入生產階段。\napproval (n.) 贊成，同意。wait for approval = 等待批准，固定搭配。"],
+[9,"FILL","The board a_________d a new chief executive to lead the company through its most challenging period in decades.","appointed",null,"a_________d|officially selected someone for a role or position; named someone to a job","📖 董事會任命了一位新的執行長，帶領公司度過數十年來最具挑戰性的時期。\nappoint (vt.) 選定；指定；指派。appointed sb. as = 任命某人為…（過去式）。"],
+[10,"FILL","A p_____l of five judges reviewed each application and scored them on creativity, feasibility, and social impact.","panel",null,"p_____l|a group of people chosen to make decisions or give opinions; a committee of judges","📖 五位評審組成的小組審查了每份申請，並根據創意、可行性和社會影響力進行評分。\npanel (n.) 嵌版；儀表板；專題討論小組。a panel of judges = 評審小組，固定搭配。"],
+[11,"FILL","She p_______s a rare combination of analytical skill and creative thinking that makes her invaluable to any team.","possesses",null,"p_______s|has or owns a quality or skill; holds something as one's own","📖 她擁有分析能力和創意思維的罕見結合，使她對任何團隊都是無價之寶。\npossess (vt.) 擁有，持有。possesses a combination of = 擁有…的結合（第三人稱單數現在式）。"],
+[12,"FILL","The book club's discussions were deeply i___________l — members often left with new ways of thinking about old problems.","intellectual",null,"i___________l|relating to the ability to think and reason; requiring deep mental engagement","📖 這個讀書會的討論非常具有智識性——成員們通常帶著對舊問題的新思考方式離開。\nintellectual (a. & n.) 智力的；知識分子。intellectual discussion = 具智識性的討論。"],
+[13,"FILL","The old pipes were made of c_____r, which explains why they have lasted over a century without serious corrosion.","copper",null,"c_____r|a reddish-brown metal used in pipes, wires, and coins; highly conductive","📖 舊管道是由銅製成的，這解釋了為什麼它們在沒有嚴重腐蝕的情況下使用了一個多世紀。\ncopper (n. & a.) 紅銅；紅銅色的。copper pipes = 銅管，固定搭配。"],
+[14,"FILL","Dr. Chen r_______d to find a way to balance her demanding career and her family life, and she eventually succeeded.","resolved",null,"r_______d|firmly decided; determined to do something; found a solution to a problem","📖 她決心找到平衡繁忙事業和家庭生活的方法，最終她成功了。\nresolve (vt.) 解決；下決心。resolved to + V = 決心做…（過去式）。"],
+[15,"FILL","The city's o_________a performed Beethoven's Ninth Symphony to a sold-out crowd on New Year's Eve.","orchestra",null,"o_________a|a large group of musicians who play together, usually with strings and winds","📖 這座城市的管弦樂團在新年前夕向座無虛席的觀眾演奏了貝多芬第九交響曲。\norchestra (n.) 管弦樂團。perform with an orchestra = 與管弦樂團共演。"],
+[16,"FILL","The composer sat at the piano for hours, struggling to c_______e a melody that truly captured how she felt that evening.","compose",null,"c_______e|to create a piece of music or writing; to put together something original","📖 她在鋼琴前坐了幾個小時，努力譜寫一段真正捕捉她那天晚上感受的旋律。\ncompose (vt.) 組成，構成；譜（曲）。compose a melody = 譜寫旋律，固定搭配。"],
+[17,"FILL","Her c_______e noticed she looked tired and offered to cover the afternoon class so she could rest.","colleague",null,"c_______e|someone you work with; a fellow professional in the same workplace","📖 她的同事注意到她看起來很疲憊，主動提出代上下午的課讓她休息。\ncolleague (n.) 同事。a caring colleague = 關心人的同事。"],
+[18,"FILL","His p_______l to expand the library's opening hours was accepted by the school council without any objection.","proposal",null,"p_______l|a formal suggestion or plan put forward for others to consider and approve","📖 他提議延長圖書館開放時間的提案被學校委員會接受，沒有任何反對意見。\nproposal (n.) 提議，建議；求婚。put forward a proposal = 提出提案，固定搭配。"],
+[19,"FILL","Nobody trusted him after the incident — once people knew he was a l___r, everything he said became doubtful.","liar",null,"l___r|a person who tells untruths; someone who regularly says things that are not true","📖 事件發生後沒有人信任他——一旦人們知道他是個說謊者，他說的一切都變得令人懷疑。\nliar (n.) 說謊者。a proven liar = 已被證實的說謊者。"],
+[20,"FILL","There is a wide g___f between what students learn in class and what employers actually expect from new graduates.","gulf",null,"g___f|a large difference or gap between two things; a deep divide","📖 學生在課堂上學到的和雇主對應屆畢業生的實際期望之間存在很大的差距。\ngulf (n.) 海灣；（意見等的）差異。a wide gulf between = 兩者之間的巨大鴻溝。"]
+],
+C:[
+
+[1,"CTX","The ______ for the scholarship was intense — over three hundred students applied for just ten places.",["assistance","competition","gulf","characteristic"],1,null,"competition（競爭；比賽）搭配「三百多名學生競爭十個名額」，fierce competition = 激烈競爭，固定搭配。"],
+[2,"CTX","Volunteers ______ meals to over five hundred families affected by the earthquake in the first week alone.",["criticized","distributed","composed","resolved"],1,null,"distribute（分發；分配）搭配「志工向五百多個家庭分發餐食」，distribute meals to = 向…分發餐食，固定搭配。"],
+[3,"CTX","The film was ______ for its unrealistic dialogue and lack of character development by most major reviewers.",["distributed","resolved","criticized","composed"],2,null,"criticize（批評）搭配「電影因對話不真實、人物發展不足而受批評」，criticized for = 因…而受批評，固定搭配。"],
+[4,"CTX","The project's failure was ______ due to poor communication — the technical issues were secondary.",["largely","elsewhere","nevertheless","otherwise"],0,null,"largely（大部分；主要地）搭配「主要由於溝通不良」，largely due to = 主要由於…，固定搭配。"],
+[5,"CTX","The amateur runner ______ to finishing the marathon even when her legs ached and her energy was nearly gone.",["retired","appointed","composed","committed"],3,null,"commit（奉獻；致力於）搭配「即使雙腿疼痛、體力耗盡仍致力完成馬拉松」，committed to + V-ing = 致力於…。"],
+[6,"CTX","After thirty-five years as a surgeon, he finally decided to ______ and spend his mornings painting watercolors.",["adjust","distribute","retire","criticize"],2,null,"retire（退休）搭配「三十五年後決定退休、早晨畫水彩」，retire after = 在…後退休，固定搭配。"],
+[7,"CTX","The new office was beautifully ______ — standing desks, ergonomic chairs, and plants in every corner.",["furnished","criticized","resolved","distributed"],0,null,"furnish（配備傢俱）搭配「辦公室配備站立桌、人體工學椅和植物」，furnished with = 配備了…，固定搭配。"],
+[8,"CTX","The design needed final ______ from the board before the team could move into production.",["assistance","gulf","competition","approval"],3,null,"approval（批准；同意）搭配「需要董事會最終批准才能進入生產」，final approval = 最終批准，固定搭配。"],
+[9,"CTX","The committee ______ a new director to oversee the expansion of the organization's programs.",["distributed","criticized","retired","appointed"],3,null,"appoint（指派；任命）搭配「委員會任命新主任監督計畫擴展」，appointed a director to = 任命主任去…，固定搭配。"],
+[10,"CTX","A ______ of five experts reviewed the research and gave detailed feedback on its methodology and conclusions.",["assistance","gulf","panel","competition"],2,null,"panel（小組；討論小組）搭配「五位專家小組審查研究並提供回饋」，a panel of experts = 專家小組，固定搭配。"],
+[11,"CTX","The counselor ______ a natural ability to connect with people — conversations with her always felt warm and genuine.",["criticized","composed","distributed","possessed"],3,null,"possess（擁有）搭配「擁有天生的與人連結能力」，possess an ability = 擁有能力，固定搭配。"],
+[12,"CTX","The discussion was deeply ______ — both speakers drew on philosophy, history, and science to make their points.",["intense","content","rural","intellectual"],3,null,"intellectual（智力的；需深度思考的）搭配「引用哲學、歷史和科學的深度討論」，an intellectual discussion = 具智識性的討論。"],
+[13,"CTX","The ancient statue was cast in ______, which gave it a distinctive reddish-brown color that has survived for centuries.",["assistance","gulf","copper","competition"],2,null,"copper（紅銅）搭配「古代雕像用銅鑄造、獨特紅棕色保存數百年」，cast in copper = 用銅鑄造，固定搭配。"],
+[14,"CTX","After weeks of tension, the two teams finally ______ their disagreement and agreed on a shared approach.",["criticized","retired","resolved","composed"],2,null,"resolve（解決；化解）搭配「數週緊張後兩隊終於化解分歧」，resolve a disagreement = 化解分歧，固定搭配。"],
+[15,"CTX","The city ______ performed Mahler's Fifth Symphony to a packed concert hall on opening night.",["assistance","orchestra","gulf","competition"],1,null,"orchestra（管弦樂團）搭配「城市管弦樂團在開幕夜演奏馬勒第五號交響曲」，city orchestra = 城市管弦樂團。"],
+[16,"CTX","The pianist sat at the piano for hours trying to ______ a piece that captured the feeling of a rainy afternoon.",["compose","adjust","distribute","criticize"],0,null,"compose（譜曲；創作）搭配「坐在鋼琴前試圖創作捕捉雨天感覺的曲子」，compose a piece = 譜一首曲，固定搭配。"],
+[17,"CTX","Her ______ noticed she had been unusually quiet all week and asked if she needed any support.",["assistance","gulf","colleague","competition"],2,null,"colleague（同事）搭配「同事注意到她整週異常安靜並詢問是否需要幫助」，a thoughtful colleague = 體貼的同事。"],
+[18,"CTX","His ______ to build a rooftop garden on the school building was greeted with enthusiasm by both students and teachers.",["assistance","proposal","gulf","competition"],1,null,"proposal（提議；建議）搭配「在學校屋頂建花園的提案獲師生熱情響應」，put forward a proposal = 提出提案，固定搭配。"],
+[19,"CTX","Once everyone knew he was a ______, nothing he said could be taken at face value, even when he told the truth.",["assistance","gulf","liar","competition"],2,null,"liar（說謊者）搭配「一旦被認定為說謊者，即使說真話也無法被相信」，a proven liar = 已被證實的說謊者。"],
+[20,"CTX","There is a wide ______ between what students learn in school and the practical skills employers actually need.",["assistance","competition","characteristic","gulf"],3,null,"gulf（差異；鴻溝）搭配「學校所學與雇主需求之間的巨大差距」，a wide gulf between = 兩者之間的巨大鴻溝。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 7  B4 L1–L4 + Core Vocab L4 U07–U09
+// ─────────────────────────────────────────────────────────────────────
+w7:{week:7,dates:"8/11–8/17",srcA:"龍騰課本 B1+B2 片語複習",srcB:"核單 L4 U07",srcC:"核單 L4 U07 進階",
+A:[
+[1,"MC","The organization's mission is to ______ access to quality education for children in underserved communities.",["introduce","expand","seize","connect"],1,null,"expand access（擴大獲取管道）固定搭配。expand access to = 擴大對…的獲取機會。"],
+[2,"MC","Her ______ approach to problem-solving made her a valuable member of any team.",["systematic","focused","capable","reckless"],0,null,"systematic (adj.) 系統性的。a systematic approach = 系統性的做法，固定搭配。"],
+[3,"MC","The new medical treatment has shown ______ results in early clinical trials.",["open-minded","promising","keen","innovative"],1,null,"promising (adj.) 有前景的；令人期待的。promising results = 令人期待的結果。"],
+[4,"MC","Without proper ______, the volunteers had no idea how to respond in an emergency situation.",["relationship","honor","training","dedication"],2,null,"proper training（適當的訓練）符合「不知道如何應對緊急情況」的前提條件。"],
+[5,"MC","The entrepreneur ______ her grandmother's recipe and turned it into a bestselling product.",["provide","adapted","promote","introduce"],1,null,"adapt (vt.) 改編；調整。adapted her grandmother's recipe = 將祖母的食譜加以改編。"],
+[6,"MC","The company invested heavily in ______ to stay ahead of its competitors in the market.",["ingredient","injury","surface","innovation"],3,null,"invest in innovation（投資創新）固定搭配，符合「保持市場領先」的語境。"],
+[7,"MC","The new regulations ______ that all products meet strict safety standards before going on sale.",["require","expand","recall","eliminate"],0,null,"require that（規定…）固定搭配。require that all products meet = 規定所有產品必須符合。"],
+[8,"MC","The cancer survivor was ______ by the level of support she received from complete strangers after sharing her story online.",["medical","touched","embarrassed","constructive"],1,null,"touched (adj.) 感動的。be touched by = 被…感動，固定搭配。"],
+[9,"MC","The teacher ______ students to take notes during the lecture to help them retain information better.",["remind","ruin","encouraged","negotiate"],2,null,"encourage sb. to do（鼓勵某人做…）固定搭配。encouraged students to take notes = 鼓勵學生做筆記。"],
+[10,"MC","The detective's ______ memory allowed her to recall conversations from years ago in great detail.",["pioneering","remarkable","capable","sincere"],1,null,"remarkable memory（非凡的記憶力）固定搭配，符合「能夠回想多年前的對話」的能力描述。"],
+[11,"MC","The research ______ that regular exercise can significantly reduce the risk of heart disease.",["solve","capture","suggests","create"],2,null,"research suggests that（研究顯示）固定搭配。research suggests that... = 研究顯示…。"],
+[12,"MC","The researcher chose to ______ her argument with statistics rather than relying on emotional appeals alone.",["capture","identify","support","describe"],2,null,"support an argument with（以…支持論點）固定搭配，符合「用統計數據支持」的語境。"],
+[13,"MC","The ______ of the ancient artifact shed new light on the trading routes of early civilizations.",["relationship","majority","simplicity","discovery"],3,null,"discovery（發現）搭配「為早期文明貿易路線帶來新認識」的學術語境。"],
+[14,"MC","The keynote speaker managed to ______ the attention of the entire audience with just a few powerful opening words.",["ignore","create","wonder","capture"],3,null,"capture attention（吸引注意力）固定搭配。capture the attention of = 吸引…的注意力。"],
+[15,"MC","The artist's ______ style blended elements from both Eastern and Western traditions.",["inclusive","stubborn","unique","collaborative"],2,null,"unique style（獨特的風格）符合「融合東西方傳統元素」的原創性描述。"],
+[16,"MC","Without ______ to reliable internet access, many students in rural areas struggled to complete online assignments.",["access","flight","courage","honor"],0,null,"access to（獲取；使用管道）固定搭配。without access to reliable internet = 沒有穩定網路的使用管道。"],
+[17,"MC","The summit brought together world leaders to discuss ______ solutions to the climate crisis.",["collaborative","sensitive","satisfying","unwavering"],0,null,"collaborative (adj.) 協作的。collaborative solutions = 合作性的解決方案，符合「世界領袖共同討論」的語境。"],
+[18,"MC","The event planner ______ months carefully planning every detail of the conference, only to have it canceled the morning it was supposed to begin.",["transform","detect","adjust","spent"],3,null,"spend + time + V-ing（花時間做…）固定搭配。spent months planning = 花了幾個月計劃。其他選項語意不通：不能 celebrated/enjoyed/ignored months planning。"],
+[19,"MC","The documentary ______ the ethical dilemmas faced by scientists developing artificial intelligence.",["deny","promote","connect","explored"],3,null,"explore (vt.) 探討；探索。explored the ethical dilemmas = 探討了道德困境。"],
+[20,"MC","His ______ for detail meant that every report he submitted was virtually error-free.",["eye","invitation","region","failure"],0,null,"eye for detail（對細節的敏銳觀察力）是固定片語。an eye for detail = 對細節的敏銳觀察。"]
+],
+B:[
+
+[1,"FILL","The self-directed learner set her own p___e — some days she covered five chapters, other days just one, depending on her energy.","pace",null,"p___e|speed of movement or progress; the rate at which something happens or is done","📖 她在學習時設定了自己的步調——有些日子她讀了五章，有些日子只讀一章，視精力而定。\npace (n.) 步調。set one's own pace = 設定自己的步調，固定搭配。"],
+[2,"FILL","Winning a_________e from her peers was not easy — it took months of consistent effort before they fully trusted her judgment.","acceptance",null,"a_________e|being received favorably; approval or agreement from others; feeling welcomed","📖 贏得同儕的認可並不容易——花了幾個月持續的努力，他們才完全信任她的判斷。\nacceptance (n.) 接受；答應（邀請等）。win acceptance from = 贏得…的認可，固定搭配。"],
+[3,"FILL","Good teachers help students r_____n what they have learned by reviewing key ideas regularly and applying them in new contexts.","retain",null,"r_____n|to keep or hold on to; to continue to have something; to remember information","📖 好老師透過定期複習關鍵概念並在新情境中應用，幫助學生保留所學。\nretain (vt.) 保留，保有。retain information = 保留資訊，固定搭配。"],
+[4,"FILL","The retired professor was c_______t with a quiet life in the countryside — he had no desire for fame, money, or recognition.","content",null,"c_______t|satisfied and at peace; not needing more; opposite of restless or dissatisfied","📖 他對鄉村的安靜生活感到滿足——他對名聲、金錢或認可沒有任何渴望。\ncontent (a.) 滿足的；滿足。be content with = 對…感到滿足，固定搭配。"],
+[5,"FILL","Staff were asked to a_______e in the conference room at 9 a.m. for a briefing before the official launch.","assemble",null,"a_______e|to come together in one place; to gather as a group; to meet formally","📖 員工被要求在早上九點在會議室集合，在正式啟動前進行簡報。\nassemble (vt.) 集合，聚集；組裝。assemble in = 在…集合，固定搭配。"],
+[6,"FILL","Many young people are moving to r_____l areas in search of lower costs, cleaner air, and a slower pace of life.","rural",null,"r_____l|relating to the countryside; outside urban areas; opposite of urban","📖 許多年輕人正在遷往農村地區，尋求較低的生活成本、更清新的空氣和更慢的生活節奏。\nrural (a.) 鄉下的。rural areas = 農村地區，固定搭配。"],
+[7,"FILL","Each student was given a personal access c___e to log in to the online learning platform from home.","code",null,"c___e|a system of letters, numbers, or symbols used for identification or access","📖 每位學生都獲得了一個個人存取碼，可以從家裡登入線上學習平台。\ncode (n.) 密碼。access code = 存取碼，固定搭配。"],
+[8,"FILL","The marathon coach had a l___n, athletic build that suggested years of dedicated training rather than any natural advantage.","lean",null,"l___n|thin and fit; without excess body fat; suggesting strength through discipline","📖 她有著纖瘦、運動型的身材，顯示出多年的專注訓練而非任何天生優勢。\nlean (vi. & a.) 斜靠；瘦的。a lean build = 纖瘦的身材。"],
+[9,"FILL","Her a_______c record was excellent — she had earned top marks in every subject throughout her six years of secondary school.","academic",null,"a_______c|relating to education or study; connected with schools, colleges, and universities","📖 她的學業紀錄非常出色——在整個六年的中學期間，她在每個科目都取得了頂尖成績。\nacademic (a.) 學術的。academic record = 學業紀錄，固定搭配。"],
+[10,"FILL","The stadium has a m_______m capacity of eighty thousand spectators and has hosted several World Cup matches.","maximum",null,"m_______m|the greatest possible amount or number; the highest limit allowed or achievable","📖 這座體育場的最大容量為八萬名觀眾，已舉辦了幾場世界盃比賽。\nmaximum (n. & a.) 最大量；最大量的。maximum capacity = 最大容量，固定搭配。"],
+[11,"FILL","The sculptor's latest c_______n — a twelve-meter bronze figure — will be installed in the city's central square next spring.","creation",null,"c_______n|something made or produced through imagination and skill; a work of art","📖 這位雕塑家最新的創作——一座十二米高的青銅雕像——將於明年春天安裝在城市中心廣場。\ncreation (n.) 創造（不可數）；創作品（可數）。a new creation = 一件新的創作品。"],
+[12,"FILL","The play was part comedy and part t_______y — audiences laughed in the first act and wept openly in the last.","tragedy",null,"t_______y|a serious event causing suffering; a play or story with a sad or disastrous ending","📖 這部戲劇一部分是喜劇，一部分是悲劇——觀眾在第一幕大笑，在最後一幕公開哭泣。\ntragedy (n.) 悲劇；慘劇。a mix of comedy and tragedy = 喜劇與悲劇的混合。"],
+[13,"FILL","The film was a c_______y about a family of time travelers who kept accidentally making history worse instead of better.","comedy",null,"c_______y|a play, film, or story meant to make people laugh; a humorous work","📖 這部電影是一部關於一家時間旅行者的喜劇，他們不斷意外地讓歷史變得更糟而非更好。\ncomedy (n.) 喜劇。a romantic comedy = 浪漫喜劇，固定搭配。"],
+[14,"FILL","The old town has transformed from a quiet fishing village into a busy center of c_______e over the past two decades.","commerce",null,"c_______e|trade and business, especially on a large scale; buying and selling of goods","📖 這座古老的小鎮在過去二十年間從一個安靜的漁村轉變為一個繁忙的商業中心。\ncommerce (n.) 商業。a center of commerce = 商業中心，固定搭配。"],
+[15,"FILL","The twelve elected members c_________e the new advisory board, which will meet quarterly to review school policy.","constitute",null,"c_________e|to make up or form; to be the parts that together form a whole","📖 十二名當選成員組成了新的諮詢委員會，該委員會將每季召開會議審查學校政策。\nconstitute (vt.) 組成，構成。constitute the board = 組成委員會，固定搭配。"],
+[16,"FILL","The instruction m_____l included step-by-step diagrams showing exactly how to assemble each part of the furniture.","manual",null,"m_____l|a book of instructions for using or assembling something; a guide or handbook","📖 說明手冊包括逐步圖解，準確顯示如何組裝家具的每個零件。\nmanual (a. & n.) 用手的；體力的；手冊。instruction manual = 說明手冊，固定搭配。"],
+[17,"FILL","The avid reader decided to r_____w her library membership so she could continue borrowing books and attending reading events.","renew",null,"r_____w|to extend the period of something; to make valid again; to start something fresh","📖 她決定更新圖書館會員資格，以便繼續借書和參加閱讀活動。\nrenew (vt.) 更新。renew a membership = 更新會員資格，固定搭配。"],
+[18,"FILL","They sat in the s_____e of a large oak tree, enjoying cold drinks and quiet conversation on a hot summer afternoon.","shade",null,"s_____e|a cool, dark area protected from direct sunlight; shelter from the sun's heat","📖 他們坐在一棵大橡樹的樹蔭下，在炎熱的夏日下午享受冷飲和安靜的對話。\nshade (n.) 陰涼處（不可數）；卷簾（可數）。in the shade of = 在…的陰涼處，固定搭配。"],
+[19,"FILL","The r_____l community lacked adequate medical facilities, forcing residents to travel two hours to the nearest hospital.","rural",null,"r_____l|in or relating to the countryside; away from cities; not urban","📖 這個農村社區缺乏充足的醫療設施，迫使居民驅車兩小時前往最近的醫院。\nrural (a.) 鄉下的。rural community = 農村社區。"],
+[20,"FILL","Learning at your own p___e is one of the biggest advantages of online education — you are not tied to a fixed schedule.","pace",null,"p___e|the speed at which progress is made; the rate of learning or working","📖 按照自己的步調學習是線上教育最大的優勢之一——你不受固定時間表的約束。\npace (n.) 步調。at one's own pace = 按照自己的步調，固定搭配。"]
+],
+C:[
+
+[1,"CTX","The graduate student worked at her own ______, sometimes finishing three chapters in a day and other times just rereading one.",["acceptance","foundation","shelter","pace"],3,null,"pace（步調）搭配「有時讀三章、有時重讀一章的自訂速度」，at one's own pace = 按自己的步調，固定搭配。"],
+[2,"CTX","Winning the ______ of her new colleagues took time, but her reliability and warmth eventually won them over.",["acceptance","pace","foundation","shelter"],0,null,"acceptance（認可；接受）搭配「贏得新同事的認可需要時間、靠可靠和溫暖打動人心」，win acceptance = 贏得認可。"],
+[3,"CTX","She used flashcards and spaced repetition to ______ new vocabulary long after the initial learning session.",["abandon","assemble","retain","encounter"],2,null,"retain（保留；記住）搭配「用閃卡和間隔重複在最初學習後保留新詞彙」，retain vocabulary = 保留詞彙，固定搭配。"],
+[4,"CTX","The philosopher was ______ with a modest lifestyle — a small apartment, a bicycle, and good books were all he needed.",["rural","content","academic","numerous"],1,null,"content（滿足的）搭配「對簡樸生活感到滿足、只需小公寓、腳踏車和書」，be content with = 對…感到滿足，固定搭配。"],
+[5,"CTX","All department heads were asked to ______ in the main conference room for an emergency briefing at noon.",["retain","abandon","encounter","assemble"],3,null,"assemble（集合；聚集）搭配「所有部門主管被要求在會議室集合進行緊急簡報」，assemble in = 在…集合，固定搭配。"],
+[6,"CTX","Growing up in a ______ village gave her a deep appreciation for nature, quiet, and the slow rhythm of farm life.",["rural","content","academic","numerous"],0,null,"rural（鄉下的）搭配「在農村小村莊成長、感恩大自然和農場生活節奏」，rural village = 鄉村，固定搭配。"],
+[7,"CTX","Each participant received a unique access ______ to log in to the online platform for the digital workshop.",["code","pace","acceptance","foundation"],0,null,"code（密碼）搭配「每位參與者收到唯一存取碼登入線上平台」，access code = 存取碼，固定搭配。"],
+[8,"CTX","Years of marathon training had given him a ______, muscular build that made him look both fast and powerful.",["retain","lean","abandon","assemble"],1,null,"lean（瘦的；精實的）搭配「多年馬拉松訓練帶來精實肌肉身材」，a lean build = 精實的身材，固定搭配。"],
+[9,"CTX","Her ______ achievements were outstanding — top grades, two research papers published, and a scholarship to study abroad.",["content","rural","numerous","academic"],3,null,"academic（學術的）搭配「優異的學業成就、頂尖成績、發表論文、獲獎學金」，academic achievements = 學業成就，固定搭配。"],
+[10,"CTX","The venue has a ______ of three hundred guests, so we need to keep the invitation list below that number.",["pace","maximum","acceptance","foundation"],1,null,"maximum（最大量）搭配「場地最多容納三百人、邀請名單不能超過」，a maximum of = 最多…，固定搭配。"],
+[11,"CTX","The sculptor's latest ______ — a bronze figure of a woman reading — was unveiled in the town square last Friday.",["pace","acceptance","creation","foundation"],2,null,"creation（創作品）搭配「雕塑家最新創作、在廣場揭幕」，one's latest creation = 最新的創作品，固定搭配。"],
+[12,"CTX","The evening news reported a ______ at sea — a fishing boat capsized and three crew members were missing.",["tragedy","pace","acceptance","foundation"],0,null,"tragedy（悲劇；慘劇）搭配「漁船翻覆、三名船員失蹤的慘劇」，a tragedy at sea = 海上慘劇，固定搭配。"],
+[13,"CTX","The play was a ______ about a family of superheroes who kept accidentally revealing their secret identities.",["pace","acceptance","comedy","foundation"],2,null,"comedy（喜劇）搭配「關於超級英雄家庭不斷意外暴露身份的喜劇」，a comedy about = 關於…的喜劇，固定搭配。"],
+[14,"CTX","The old port district has been transformed into a lively hub of ______, with hundreds of shops and restaurants.",["pace","acceptance","foundation","commerce"],3,null,"commerce（商業）搭配「舊港區轉型為熱鬧商業中心、有數百家商店和餐廳」，a hub of commerce = 商業中心，固定搭配。"],
+[15,"CTX","The twelve elected representatives ______ the new oversight committee, which will review policy monthly.",["constitute","retain","abandon","assemble"],0,null,"constitute（組成；構成）搭配「十二名代表組成新監督委員會」，constitute the committee = 組成委員會，固定搭配。"],
+[16,"CTX","Always read the instruction ______ before attempting to assemble any piece of furniture — skipping it causes mistakes.",["content","manual","rural","academic"],1,null,"manual（手冊）搭配「組裝家具前先閱讀說明手冊、跳過會犯錯」，instruction manual = 說明手冊，固定搭配。"],
+[17,"CTX","The office worker decided to ______ her gym membership for another year after realizing how much the classes had improved her fitness.",["retain","abandon","renew","assemble"],2,null,"renew（更新；續約）搭配「意識到健身課幫助很大後決定再續約一年」，renew a membership = 更新會員資格，固定搭配。"],
+[18,"CTX","They spread a blanket in the ______ of a large oak tree and spent the afternoon reading and talking quietly.",["pace","shade","acceptance","foundation"],1,null,"shade（陰涼處）搭配「在大橡樹陰涼處鋪毯子、下午閱讀聊天」，in the shade of = 在…的陰涼處，固定搭配。"],
+[19,"ROOT","\"Commerce\" shares its root with \"merchant\" and \"market.\" The Latin root \"merc\" means ______.",["build","trade / goods","speak","carry"],1,null,"merc = 貨物、交易（拉丁語 merx/mercis）。commerce = 商業；merchant = 商人；merchandise = 商品。market 也源於同一拉丁語族。"],
+[20,"ROOT","\"Constitution\" and \"constitute\" share the root \"stitu\" from Latin, meaning to ______.",["set up / place","carry","speak","break"],0,null,"stitu = 設立、放置（拉丁語 statuere）。constitute = 設立組成；constitution = 建立起來的制度（憲法）；substitute = 放在下方替代。"]
+]},
+
+// ─────────────────────────────────────────────────────────────────────
+// WEEK 8  B4 L5–L8 / B5 重點複習 + Core Vocab L4 U10–U12
+// ─────────────────────────────────────────────────────────────────────
+w8:{week:8,dates:"8/18–8/24",srcA:"龍騰課本 B1+B2 全冊最終掃描",srcB:"核單 L4 U08",srcC:"核單 L4 U08 進階",
+A:[
+[1,"MC","The new policy aims to ______ economic growth while protecting the natural environment.",["condense","describe","promote","remind"],2,null,"promote (vt.) 促進。promote economic growth = 促進經濟成長，固定搭配。"],
+[2,"MC","She demonstrated ______ leadership by involving every team member in the decision-making process.",["balanced","embarrassed","daunted","inclusive"],3,null,"inclusive (adj.) 包容的；兼容並蓄的。inclusive leadership = 包容性領導。"],
+[3,"MC","The scientist's ______ work on gene therapy has been recognized with several international awards.",["romantic","pioneering","reliable","deliberate"],1,null,"pioneering (adj.) 開創性的。pioneering work = 開創性的工作，固定搭配。"],
+[4,"MC","Without ______ feedback that points out both what is working and what can be done better, employees have no roadmap for growth.",["constructive","amazing","remarkable","reluctant"],0,null,"constructive feedback（建設性的回饋）固定搭配。'both what is working and what can be done better' 鎖定 constructive；negative 只指出問題不提優點；harsh 態度差；vague 不清楚。"],
+[5,"MC","The activist ______ herself to the cause of environmental protection, dedicating over thirty years to the movement.",["avoid","negotiate","devoted","confess"],2,null,"devote oneself to（致力於…）固定搭配。devoted herself to = 把自己奉獻給…。"],
+[6,"MC","The school introduced a new program to ______ students' mental health alongside their academic development.",["simplify","breathe","emphasize","support"],3,null,"support (vt.) 支持；支援。support students' mental health = 支援學生的心理健康。"],
+[7,"MC","His ______ use of data in his presentation made his argument nearly impossible to refute.",["long-term","strategic","romantic","promising"],1,null,"strategic (adj.) 有策略的。strategic use of data = 策略性地使用數據。"],
+[8,"MC","The report ______ several key factors that contributed to the rise in youth unemployment.",["allocate","highlight","identified","deny"],2,null,"identify (vt.) 識別；指出。identified key factors = 指出了關鍵因素。"],
+[9,"MC","Despite the challenges, she remained ______ in her belief that education was the key to social change.",["cautious","calm","scientific","firm"],3,null,"firm (adj.) 堅定的。remained firm in her belief = 對她的信念保持堅定。"],
+[10,"MC","The two organizations agreed to ______ on a joint project to provide clean water to rural communities.",["create","manage","collaborate","seize"],2,null,"collaborate on（在…上合作）固定搭配。agreed to collaborate on = 同意在…上合作。"],
+[11,"MC","Her ______ approach to teaching encouraged students to ask questions and think critically.",["open-minded","satisfying","promising","innovative"],0,null,"open-minded (adj.) 思想開放的。an open-minded approach = 開放的教學方式。"],
+[12,"MC","The documentary ______ the impact of fast fashion on workers in developing countries.",["indicate","exposed","deny","connect"],1,null,"expose (vt.) 揭露。exposed the impact of = 揭露了…的影響。"],
+[13,"MC","She chose to ______ the job offer abroad because she did not want to leave her aging parents.",["decline","solve","recall","inspire"],0,null,"decline (vt.) 拒絕（正式）。decline a job offer = 拒絕工作邀約，固定搭配。"],
+[14,"MC","The company's ______ to sustainability was evident in every aspect of its operations.",["presentation","commitment","majority","support"],1,null,"commitment to sustainability（對永續發展的承諾）固定搭配。"],
+[15,"MC","Her ______ nature made her an excellent listener and a trusted advisor to many.",["empathetic","harsh","promising","concrete"],0,null,"empathetic (adj.) 有同理心的。an empathetic nature = 有同理心的天性。"],
+[16,"MC","The festival provided a ______ for artists from different cultures to share their work with a global audience.",["dedication","imagination","pride","platform"],3,null,"platform (n.) 平台；舞台。provide a platform for = 為…提供平台，固定搭配。"],
+[17,"MC","Without ______ to diverse perspectives, it is difficult to develop a truly global mindset.",["pride","flavor","exposure","technique"],2,null,"exposure to（接觸；暴露於）固定搭配。exposure to diverse perspectives = 接觸多元視角。"],
+[18,"MC","The author ______ her personal experience with broader social issues to make her memoir deeply moving.",["ignore","connected","breathe","accomplish"],1,null,"connect A with B（將A與B連結）固定搭配。connected her experience with broader issues = 將個人經歷與更廣泛的社會議題連結。"],
+[19,"MC","The new infrastructure project is expected to ______ the region's economy by attracting international investment.",["ensure","ruin","predict","boost"],3,null,"boost (vt.) 提振；促進。boost the economy = 提振經濟，固定搭配。"],
+[20,"MC","The new VP worked hard to ______ the trust of her new team after joining the company as an outsider.",["earn","seize","explore","affect"],0,null,"earn trust（贏得信任）固定搭配。earn the trust of = 贏得…的信任。"]
+],
+B:[
+
+[1,"FILL","Respect and honesty are f___________l values in any healthy relationship — without them, trust cannot be built.","fundamental",null,"f___________l|basic and essential; forming the necessary foundation; opposite of trivial","📖 尊重和誠實是任何健康關係中的基本價值觀——沒有它們，信任就無法建立。\nfundamental (a. & n.) 重要的；基本的；基礎。fundamental values = 基本價值觀，固定搭配。"],
+[2,"FILL","The accountant found it difficult to c___________e in the library because of the noisy group of students at the next table.","concentrate",null,"c___________e|to focus one's attention and mental energy on something; to think carefully","📖 她發現很難在圖書館集中注意力，因為隔壁桌有一群吵鬧的學生。\nconcentrate (vt. & vi.) 集中；濃縮物。concentrate on = 專注於…，固定搭配。"],
+[3,"FILL","The instructions were so p_____e that even a beginner could follow them without making a single mistake.","precise",null,"p_____e|exact and accurate; clearly stated without any room for error or doubt","📖 這些說明如此精確，即使是初學者也能遵循而不犯任何錯誤。\nprecise (a.) 正確的；精確的。precise instructions = 精確的說明，固定搭配。"],
+[4,"FILL","The committee found the revised proposal far more a_______e than the original and voted to approve it unanimously.","agreeable",null,"a_______e|acceptable and pleasing; easy to agree with; opposite of objectionable","📖 委員會發現修訂後的提案比原版更令人滿意，並一致投票批准了它。\nagreeable (a.) 可接受的，贊成的；令人喜悅的。more agreeable = 更令人滿意的。"],
+[5,"FILL","Breaking with c_________n, she chose to deliver the entire speech in a question-and-answer format rather than reading from notes.","convention",null,"c_________n|an established way of doing things; a custom or tradition widely followed","📖 打破慣例，她選擇以問答形式發表整個演講，而不是從筆記中閱讀。\nconvention (n.) 慣例，習俗；大會，會議（可數）。break with convention = 打破慣例，固定搭配。"],
+[6,"FILL","The d_________e spent three days reviewing security footage before identifying the suspect from a crowd of thousands.","detective",null,"d_________e|a person, often a police officer, who investigates crimes; someone who finds hidden information","📖 這名偵探花了三天審查安全錄像，才從數千人的人群中辨認出嫌疑人。\ndetective (n.) 偵探；刑警。a skilled detective = 技術嫻熟的偵探。"],
+[7,"FILL","Over sixty p_____t of the students surveyed said they preferred face-to-face lessons over online classes.","percent",null,"p_____t|a proportion out of one hundred; used to express how large a part of a whole is","📖 超過六十個百分比的受訪學生表示他們更喜歡面對面課程而非線上課程。\npercent (n.) 百分之（幾）。sixty percent of = 百分之六十的…，固定搭配。"],
+[8,"FILL","Her silence seemed to i_____y that she disagreed with the decision, even though she never said so directly.","imply",null,"i_____y|to suggest something without saying it directly; to hint at a meaning","📖 她的沉默似乎暗示她不同意這個決定，儘管她從未直接說出來。\nimply (vt.) 暗示。seem to imply that = 似乎暗示…，固定搭配。"],
+[9,"FILL","The neighbor sent a card expressing her s_______y to the family, letting them know she was thinking of them during the difficult time.","sympathy",null,"s_______y|the feeling of sorrow for someone else's suffering; compassion and understanding","📖 她寄了一張卡片向這個家庭表達同情，讓他們知道在困難時期她一直在想著他們。\nsympathy (n.) 慰問；同情，同感，共鳴。express sympathy = 表達同情，固定搭配。"],
+[10,"FILL","A good reader does not just decode words — she a_______s the meaning, connects ideas, and thinks critically about the text.","absorbs",null,"a_______s|takes in and understands deeply; processes and makes sense of something","📖 一位好的讀者不只是解碼文字——她吸收含義、連結想法，並對文本進行批判性思考。\nabsorb (vt.) 吸收；理解。absorb meaning = 吸收意義（第三人稱單數現在式）。"],
+[11,"FILL","Please a_____h your résumé and cover letter to the email before sending it to the recruitment team.","attach",null,"a_____h|to fasten or connect something to something else; to include a file with a message","📖 在將電子郵件發送給招募團隊之前，請將您的履歷和求職信附在郵件中。\nattach (vt.) 繫住，連接（與介詞 to 並用）。attach a file = 附上檔案，固定搭配。"],
+[12,"FILL","After years of hard work and sacrifice, she finally felt that she d_______d the recognition she had long been denied.","deserved",null,"d_______d|earned the right to something through effort or quality; was entitled to receive","📖 多年的努力和犧牲之後，她終於覺得自己應得長期被否認的認可。\ndeserve (vt.) 應得。deserved the recognition = 應得了認可（過去式）。"],
+[13,"FILL","The new material showed strong r_________e to heat and pressure, making it ideal for use in aerospace engineering.","resistance",null,"r_________e|the ability to withstand force, damage, or change; opposition to something","📖 這種新材料對熱和壓力表現出強大的抵抗力，使其成為航太工程應用的理想材料。\nresistance (n.) 抵抗；（身體的）抵抗力。resistance to heat = 對熱的抵抗力，固定搭配。"],
+[14,"FILL","She took out a student l___n to cover tuition fees and planned to repay it within five years of graduating.","loan",null,"l___n|money borrowed that must be paid back, usually with interest; a sum lent","📖 她申請了學生貸款來支付學費，並計劃在畢業後五年內還清。\nloan (n. & vt.) 貸款；借給。take out a loan = 申請貸款，固定搭配。"],
+[15,"FILL","Please r_______r for the workshop by completing the online form and paying the participation fee before Friday.","register",null,"r_______r|to officially sign up for something; to enroll or record one's name formally","📖 請在週五之前填寫線上表格並繳納參與費，以完成工作坊的報名。\nregister (vt. & vi.) 登記，註冊；流露。register for = 報名參加…，固定搭配。"],
+[16,"FILL","The designer was a_______d of stealing the idea, but her journal entries clearly showed she had developed it independently.","accused",null,"a_______d|blamed for doing something wrong; formally charged with an offense","📖 她被指控竊取了這個想法，但她的日記條目清楚地顯示她是獨立開發的。\naccuse (vt.) 指控。be accused of = 被指控…（被動語態），固定搭配。"],
+[17,"FILL","The business owner c_______d a financial advisor before making any major investment decisions — he never relied on guesswork alone.","consulted",null,"c_______d|sought advice or information from an expert; asked someone with knowledge for guidance","📖 在做出任何重大投資決定之前，他會諮詢財務顧問——他從不單靠猜測。\nconsult (vt.) 查詢（字典、書等）；請教，求教。consulted an advisor = 諮詢了顧問（過去式）。"],
+[18,"FILL","Improving e_________y in the workplace means getting the same results with less time, money, and effort.","efficiency",null,"e_________y|the ability to achieve results with minimum waste of time or resources","📖 提高職場效率意味著以更少的時間、金錢和精力取得相同的成果。\nefficiency (n.) 效率。improve efficiency = 提高效率，固定搭配。"],
+[19,"FILL","The desire to belong and be accepted appears to be u_________l — it is found in every culture across history.","universal",null,"u_________l|shared by everyone everywhere; applying to all cases without exception","📖 歸屬感和被接受的渴望似乎是普遍的——在歷史上的每一種文化中都能找到。\nuniversal (a. & n.) 普遍的，全宇宙的。a universal desire = 普遍的渴望，固定搭配。"],
+[20,"FILL","The job candidate left a strong first i_________n — arriving early, dressed professionally, and ready with thoughtful questions for the panel.","impression",null,"i_________n|the effect or feeling that someone or something creates in another person's mind","📖 她留下了強烈的第一印象——提前到達，穿著專業，並準備好了深思熟慮的問題提問評審。\nimpression (n.) 印象；想法，感覺。leave an impression = 留下印象，固定搭配。"]
+],
+C:[
+
+[1,"CTX","Kindness and empathy are ______ to building meaningful human connections — without them, relationships remain shallow.",["prominent","fundamental","precise","agreeable"],1,null,"fundamental（基本的；根本的）搭配「善意和同理心是建立深層聯繫的根本」，fundamental to = 對…根本，固定搭配。"],
+[2,"CTX","The accountant moved to a quieter desk away from the window to help her ______ on the complex financial report.",["concentrate","imply","absorb","attach"],0,null,"concentrate（集中注意力）搭配「移到更安靜的桌子幫助專注於複雜報告」，concentrate on = 專注於…，固定搭配。"],
+[3,"CTX","The surgeon's instructions were ______ — every step was described in exact detail to prevent any error.",["prominent","fundamental","agreeable","precise"],3,null,"precise（精確的）搭配「外科醫生的指示精確詳細以防止錯誤」，precise instructions = 精確的指示，固定搭配。"],
+[4,"CTX","The revised timetable was far more ______ to all parties and was approved without any objection.",["prominent","agreeable","fundamental","precise"],1,null,"agreeable（可接受的；令人滿意的）搭配「修訂時間表對所有人更滿意、無異議通過」，more agreeable = 更令人滿意的。"],
+[5,"CTX","Breaking with ______, the architect designed a building with no straight lines — every wall curved gently inward.",["convention","incident","detective","percent"],0,null,"convention（慣例；習俗）搭配「打破慣例、設計無直線建築」，break with convention = 打破慣例，固定搭配。"],
+[6,"CTX","The ______ studied the crime scene for three hours before concluding that the theft had been carefully planned.",["incident","convention","detective","percent"],2,null,"detective（偵探）搭配「研究犯罪現場三小時後得出結論」，a skilled detective = 技術嫻熟的偵探，固定搭配。"],
+[7,"CTX","Studies show that over seventy ______ of students perform better when they get at least eight hours of sleep.",["incident","convention","detective","percent"],3,null,"percent（百分之…）搭配「七十個百分比的學生睡八小時後表現更好」，over seventy percent = 超過七十個百分比，固定搭配。"],
+[8,"CTX","Her long silence seemed to ______ that she was unhappy with the decision, even though she said nothing.",["concentrate","absorb","attach","imply"],3,null,"imply（暗示）搭配「長時間沉默似乎暗示她對決定不滿」，seem to imply = 似乎暗示，固定搭配。"],
+[9,"CTX","The colleague sent a handwritten card expressing her ______ after hearing that her friend's father had passed away.",["sympathy","incident","convention","detective"],0,null,"sympathy（同情；慰問）搭配「得知朋友父親去世後寄慰問卡」，express sympathy = 表達同情，固定搭配。"],
+[10,"CTX","Young children ______ language remarkably quickly — they pick up new words and grammar without formal instruction.",["absorb","concentrate","imply","attach"],0,null,"absorb（吸收；理解）搭配「幼兒快速吸收語言、不需正式教學」，absorb language = 吸收語言，固定搭配。"],
+[11,"CTX","Please ______ your passport photo to the application form before submitting it to the admissions office.",["concentrate","imply","attach","absorb"],2,null,"attach（附上；連接）搭配「在申請表上附護照照片後提交」，attach sth. to = 將…附在…上，固定搭配。"],
+[12,"CTX","After years of hard work, she finally felt she ______ a promotion and asked her manager for a review.",["accused","isolated","deserved","fled"],2,null,"deserve（應得）搭配「多年努力後覺得自己應得升遷並向主管申請考核」，deserve a promotion = 應得升遷，固定搭配。"],
+[13,"CTX","The body builds up ______ to certain medications over time, which is why doctors sometimes need to change prescriptions.",["incident","resistance","convention","detective"],1,null,"resistance（抵抗力）搭配「身體對某些藥物建立抵抗力、需要更換處方」，resistance to = 對…的抵抗力，固定搭配。"],
+[14,"CTX","Lin took out a student ______ to cover her tuition fees and planned to pay it back within five years of graduating.",["concentrate","imply","absorb","loan"],3,null,"loan（貸款）搭配「申請學生貸款支付學費、計畫五年內還清」，take out a loan = 申請貸款，固定搭配。"],
+[15,"CTX","All participants must ______ online before the conference begins — walk-in registration will not be available.",["concentrate","imply","absorb","register"],3,null,"register（登記；報名）搭配「所有參與者必須線上報名、不接受現場報名」，register online = 線上報名，固定搭配。"],
+[16,"CTX","The student was ______ of plagiarism, but her teacher found no evidence to support the claim after a thorough review.",["isolated","absorbed","accused","fled"],2,null,"accuse（指控）搭配「被指控抄襲但老師仔細審查後找不到證據」，be accused of = 被指控…，固定搭配。"],
+[17,"CTX","Before making any major financial decision, the business owner always ______ her accountant to make sure she was not missing anything.",["accused","isolated","registered","consulted"],3,null,"consult（請教；查詢）搭配「做重大財務決定前總是請教會計師」，consult sb. = 請教某人，固定搭配。"],
+[18,"CTX","Improving workplace ______ means getting more done in less time without sacrificing the quality of the output.",["efficiency","incident","convention","detective"],0,null,"efficiency（效率）搭配「提高效率意味著用更少時間完成更多而不犧牲品質」，improve efficiency = 提高效率，固定搭配。"],
+[19,"CTX","The desire to be loved and accepted appears to be ______ — it is found in every human culture throughout history.",["prominent","fundamental","universal","precise"],2,null,"universal（普遍的）搭配「被愛和被接受的渴望在歷史上的每種文化中都存在」，a universal desire = 普遍的渴望，固定搭配。"],
+[20,"CTX","The job candidate made an excellent first ______ by arriving early, dressing professionally, and greeting everyone with a warm smile.",["incident","impression","convention","detective"],1,null,"impression（印象）搭配「提前到達、穿著專業、熱情打招呼留下良好第一印象」，make a good impression = 留下好印象，固定搭配。"]
+]}
+
+}; // end QDB
+
+// ══════════════════════════════════════════════════════════════════════
+// ENGINE
+// ══════════════════════════════════════════════════════════════════════
+let curW='w1', curTier='low';
+let state={};
+const ALPHA=['A','B','C','D'];
+
+function initState(wk){
+  if(!state[wk]) state[wk]={A:{},B:{},C:{}};
+}
+function getQs(wk,tier){
+  const d=QDB[wk];
+  if(tier==='low') return [{part:'A',qs:d.A}];
+  if(tier==='mid') return [{part:'A',qs:d.A},{part:'B',qs:d.B}];
+  return [{part:'A',qs:d.A},{part:'B',qs:d.B},{part:'C',qs:d.C}];
+}
+function setTier(t,el){
+  curTier=t;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function switchWeek(wk){
+  curW=wk;
+  document.querySelectorAll('.wt').forEach(b=>b.classList.remove('active'));
+  document.getElementById('wt_'+wk).classList.add('active');
+  render();
+}
+
+function render(){
+  initState(curW);
+  const d=QDB[curW];
+  document.getElementById('winfo').innerHTML=
+    `<span class="wl">第 ${d.week} 週　${d.dates}</span>`+
+    `<span class="ws">📖 Part A：${d.srcA}</span>`+
+    `<span class="ws">✏️ Part B：${d.srcB}</span>`+
+    `<span class="ws">🔤 Part C：${d.srcC}</span>`;
+  const groups=getQs(curW,curTier);
+  const partLabel={A:'Part A　選擇題（Vocabulary in Context）',B:'Part B　填空題（Guided Fill-in）',C:'Part C　進階題（Word Formation & Context）'};
+  let html='';
+  groups.forEach(g=>{
+    html+=`<div class="ph ${g.part}">📝 ${partLabel[g.part]}</div>`;
+    g.qs.forEach((q,i)=>{
+      const qid=`${curW}_${g.part}_${i}`;
+      const st=state[curW][g.part][i]||{done:false,correct:false};
+      const cls=st.done?(st.correct?'correct':'wrong'):'';
+      const [id,type,stem,opts,ans,hint,expl]=q;
+      const stemHtml = stem.replace(/\n/g,'<br>');
+      if(type==='MC'||type==='ROOT'||type==='CTX'){
+        const btns=opts.map((o,oi)=>{
+          let bcls='ob';
+          if(st.done){
+            if(oi===ans) bcls+=' correct';
+            else if(oi===st.chosen) bcls+=' wrong';
+          }
+          return `<button class="${bcls}" onclick="answerMC('${curW}','${g.part}',${i},${oi},${ans},'${qid}')" ${st.done?'disabled':''}><span class="ol">${ALPHA[oi]}.</span>${o}</button>`;
+        }).join('');
+        const expHtml=st.done?`<div class="exp show"><span class="exl">解析</span>${expl}</div>`:`<div class="exp"></div>`;
+        html+=`<div class="qc ${cls}" id="${qid}">
+          <div class="qh"><div class="qn">${i+1}</div><div class="qt">${stemHtml}</div><span class="qtag ${type}">${type}</span></div>
+          <div class="opts">${btns}</div>${expHtml}</div>`;
+      } else {
+        const val=st.done?(st.correct?ans:(st.typed||'')):'';
+        const fiCls=st.done?(st.correct?'correct':'wrong'):'';
+        const expHtml=st.done?`<div class="exp show"><span class="exl">解析</span>${expl}</div>`:`<div class="exp"></div>`;
+        const wrongAns=st.done&&!st.correct?`<div class="fh">✅ 正確答案：${ans}</div>`:'';
+        let hintHtml='';
+        if(hint){
+          const hParts=hint.split('|');
+          const hBlank=hParts[0];
+          const hText=hParts.slice(1).join('|');
+          hintHtml=`<div class="hint-box"><span class="hint-blank">${hBlank}</span><span class="hint-sep"> — </span><span class="hint-text">${hText}</span></div>`;
+        }
+        html+=`<div class="qc ${cls}" id="${qid}">
+          <div class="qh"><div class="qn">${i+1}</div><div class="qt">${stemHtml}</div><span class="qtag FILL">FILL</span></div>
+          ${hintHtml}
+          <div class="fr">
+            <input class="fi ${fiCls}" id="fi_${qid}" placeholder="輸入答案…" value="${val}" ${st.done?'disabled':''}
+              onkeydown="if(event.key==='Enter')checkFill('${curW}','${g.part}',${i},'${qid}')">
+            <button class="ck" id="ck_${qid}" onclick="checkFill('${curW}','${g.part}',${i},'${qid}')" ${st.done?'disabled':''}>確認</button>
+          </div>${wrongAns}${expHtml}</div>`;
+      }
+    });
+  });
+  document.getElementById('qa').innerHTML=html;
+  updateScore();
+}
+
+function answerMC(wk,part,idx,chosen,ans,qid){
+  state[wk][part][idx]={done:true,correct:chosen===ans,chosen};
+  render();
+  setTimeout(()=>document.getElementById(qid)?.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+function checkFill(wk,part,idx,qid){
+  const inp=document.getElementById('fi_'+qid);
+  if(!inp) return;
+  const typed=inp.value.trim().toLowerCase();
+  const ans=QDB[wk][part][idx][3].toLowerCase();
+  state[wk][part][idx]={done:true,correct:typed===ans,typed:inp.value.trim()};
+  render();
+  setTimeout(()=>document.getElementById(qid)?.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+
+function updateScore(){
+  const groups=getQs(curW,curTier);
+  let tot=0,cor=0,ans=0;
+  groups.forEach(g=>{
+    g.qs.forEach((_,i)=>{
+      tot++;
+      const s=state[curW]?.[g.part]?.[i];
+      if(s?.done){ans++; if(s.correct) cor++;}
+    });
+  });
+  doc
 <title>龍騰英文 暑假字彙練習 W1–W8</title>
 <style>
 :root {
