@@ -981,4 +981,25 @@ function retryWrong(){
   const tabs=document.getElementById('wkTabs');
   for(let w=1;w<=8;w++){
     const id='w'+w;
-    const btn=document.createElement(
+    const btn=document.createElement('button');
+    btn.className='wt'+(w===1?' active':'');
+    btn.id='wt_'+id;
+    btn.textContent='W'+w;
+    btn.onclick=()=>switchWeek(id);
+    tabs.appendChild(btn);
+  }
+  // Bonus tab
+  const bonusBtn=document.createElement('button');
+  bonusBtn.className='wt';
+  bonusBtn.id='wt_bonus';
+  bonusBtn.textContent='⭐ 考古題';
+  bonusBtn.style.background='#FFF8E1';
+  bonusBtn.style.borderColor='#F57F17';
+  bonusBtn.style.color='#E65100';
+  bonusBtn.onclick=()=>switchWeek('bonus');
+  tabs.appendChild(bonusBtn);
+})();
+render();
+</script>
+</body>
+</html>
